@@ -167,3 +167,8 @@ conda install cudnn=7.6.5 -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/
 ### 参考
 
 [Deep Learning Tutorial](https://github.com/Mikoto10032/DeepLearning)
+
+---
+
+为了在浏览器中能正确显示markdown文件的公式，我们可以采取如下方式
+在chrome的扩展程序中，打开chrome网上应用店，然后搜索MathJax Plugin for Github，下载该插件，并且启用，就可以让上述公式正常显示。
