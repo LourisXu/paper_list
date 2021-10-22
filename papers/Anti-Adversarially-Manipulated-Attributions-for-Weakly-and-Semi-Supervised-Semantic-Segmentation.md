@@ -18,7 +18,7 @@
 
 ### 1. Overview
 
-Weakly supervised semantic segmentation produces a pixel-level localization from a classifier, but it is likely to restrict its focus to a small discriminative region of the target object. AdvCAM is an attribution map of an image that is manipulated to increase the classification score. This manipulation is realized in an anti-adversarial manner, which perturbs the images along pixel gradients in the opposite direction from those used in an adversarial attack. It forces regions initially considered not to be discriminative to become involved in subsequent classifications, and produces attribution maps that successively identify more regions of the target object. In addition, we introduce a new regularization procedure that inhibits the incorrect attribution of regions unrelated to the target object and limits the attributions of the regions that already have high scores. On PASCAL VOC 2012 test images, we achieve mIoUs of 68.0 and 76.9 for weakly and semi-supervised semantic segmentation respectively, which represent a new state-of-the-art
+Weakly supervised semantic segmentation produces a pixel-level localization from a classifier, but it is likely to restrict its focus to a small discriminative region of the target object. AdvCAM is an attribution map of an image that is manipulated to increase the classification score. This manipulation is realized in an anti-adversarial manner, which perturbs the images along pixel gradients in the opposite direction from those used in an adversarial attack. It forces regions initially considered not to be discriminative to become involved in subsequent classifications, and produces attribution maps that successively identify more regions of the target object. In addition, we introduce a new regularization procedure that inhibits the incorrect attribution of regions unrelated to the target object and limits the attributions of the regions that already have high scores. On PASCAL VOC 2012 test images, we achieve mIoUs of 68.0 and 76.9 for weakly and semi-supervised semantic segmentation respectively, which represent a new state-of-the-art
 
 ### 2. Algorithm
 
@@ -232,12 +232,11 @@ python run_sample.py --eval_cam_pass True --cam_to_ir_label_pass True --train_ir
 ## BibTex
 
 ```
-@inproceedings{simon2020adaptive,
-    author = {Simon, Christian and Koniusz, Piotr and Nock, Richard and Harandi, Mehrtash},
-    title = {Adaptive Subspaces for Few-Shot Learning},
-    booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
-    month = {June},
-    year = {2020},
-    pages = {4136--4145}
+@inproceedings{lee2021anti,
+  title={Anti-Adversarially Manipulated Attributions for Weakly and Semi-Supervised Semantic Segmentation},
+  author={Lee, Jungbeom and Kim, Eunji and Yoon, Sungroh},
+  booktitle={Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+  pages={4071--4080},
+  year={2021}
 }
 ```

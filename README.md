@@ -142,7 +142,9 @@ conda install cudnn=7.6.5 -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/
 ```
 
 ### 语言学习(先修)
+
 **Python3**
+
 [廖雪峰Python教程](https://www.liaoxuefeng.com/wiki/1016959663602400)：按照例子敲一遍
 
 **Numpy(先修)**
@@ -158,7 +160,8 @@ conda install cudnn=7.6.5 -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/
 
 **pytorch**
 
-**强烈建议除了NLP和RNN的内容，其他全部跟着敲一遍，上机器跑一遍**
+**强烈建议除了NLP和RNN的内容，其他全部跟着敲一遍，上机器跑一遍，自己事情自己干，不然项目结构看不懂容易抓瞎**
+
 [动手学深度学习](https://tangshusen.me/Dive-into-DL-PyTorch/#/)
 
 ### 参考
