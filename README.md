@@ -2,13 +2,13 @@
 
 ### 环境配置
 
-#### Python环境的Anaconda安装**
+#### Python环境的Anaconda安装
 
 安装Anaconda，学习常见环境切换以及依赖包安装
 - [官网](https://www.anaconda.com/)
 - [清华源镜像](https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/)
 
-#### Conda使用**
+#### Conda使用
 
 安装好Anaconda后，学习基本Conda命令使用
 - [官网文档](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html)

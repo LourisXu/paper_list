@@ -178,7 +178,7 @@ def _work(process_id, model, dataset, args):
 
 |     Code | https://github.com/jbeomlee93/AdvCAM |
 | -------: | -------------------------------------- |
-|  **Env** | Pytorch 3.6                           |
+|  **Env** | Pytorch 1.6.0                           |
 |   **IP** | 122.207.82.54:14000                   |
 | **Path** | /homec/xulei/advcam/                   |
 |  **GPU** | GeForce RTX 2080Ti, 10G |
