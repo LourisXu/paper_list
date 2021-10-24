@@ -1,4 +1,36 @@
-## 科研相关
+> # 科研相关
+
+### 语言学习(先修)
+
+**Python3**
+
+[廖雪峰Python教程](https://www.liaoxuefeng.com/wiki/1016959663602400)：按照例子敲一遍
+
+**Numpy(先修)**
+
+[Numpy快速入门](https://www.numpy.org.cn/user/quickstart.html)
+
+**Pandas**
+
+[菜鸟教程](https://www.runoob.com/pandas/pandas-tutorial.html)
+[官网教程](https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html)
+
+### 深度学习（必修）
+
+**pytorch**
+
+**强烈建议除了NLP和RNN的内容，其他全部跟着敲一遍，上机器跑一遍，自己事情自己干，不然项目结构看不懂容易抓瞎**
+
+[动手学深度学习](https://tangshusen.me/Dive-into-DL-PyTorch/#/)
+
+### 参考
+
+[Deep Learning Tutorial](https://github.com/Mikoto10032/DeepLearning)
+
+---
+
+为了在浏览器中能正确显示markdown文件的公式，我们可以采取如下方式
+在chrome的扩展程序中，打开chrome网上应用店，然后搜索MathJax Plugin for Github，下载该插件，并且启用，就可以让上述公式正常显示。
 
 ### 环境配置
 
@@ -140,35 +172,3 @@ conda install cudatoolkit=10.1 -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/
 conda install cudnn=7.6.5 -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/linux-64
 
 ```
-
-### 语言学习(先修)
-
-**Python3**
-
-[廖雪峰Python教程](https://www.liaoxuefeng.com/wiki/1016959663602400)：按照例子敲一遍
-
-**Numpy(先修)**
-
-[Numpy快速入门](https://www.numpy.org.cn/user/quickstart.html)
-
-**Pandas**
-
-[菜鸟教程](https://www.runoob.com/pandas/pandas-tutorial.html)
-[官网教程](https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html)
-
-### 深度学习（必修）
-
-**pytorch**
-
-**强烈建议除了NLP和RNN的内容，其他全部跟着敲一遍，上机器跑一遍，自己事情自己干，不然项目结构看不懂容易抓瞎**
-
-[动手学深度学习](https://tangshusen.me/Dive-into-DL-PyTorch/#/)
-
-### 参考
-
-[Deep Learning Tutorial](https://github.com/Mikoto10032/DeepLearning)
-
----
-
-为了在浏览器中能正确显示markdown文件的公式，我们可以采取如下方式
-在chrome的扩展程序中，打开chrome网上应用店，然后搜索MathJax Plugin for Github，下载该插件，并且启用，就可以让上述公式正常显示。
