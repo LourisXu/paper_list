@@ -35,6 +35,7 @@ $$\begin{equation}\begin{aligned}
 &= {\underset {\theta} {\operatorname{arg\, min}}}\, \mathcal{L}^{base}\left(\mathcal{D}^{train};\theta,\phi\right) + \mathcal{R}\left(\theta\right)
 \end{aligned}\end{equation} \\
 $$
+
 where $\mathcal{L}$ is the loss function and $\mathcal{R}$ is the regularization term.
 
 **Average test error of $\mathcal{A}$ on tasks:**
@@ -42,6 +43,7 @@ where $\mathcal{L}$ is the loss function and $\mathcal{R}$ is the regularization
 $$
   \phi = {\underset {\theta} {\operatorname{arg\, min}}}\,\mathbb{E}_{\mathcal{T}}\left[\mathcal{L}^{meta}\left(\mathcal{D}^{test};\theta,\phi\right)\right]
 $$
+
 where $\theta = \mathcal{A}\left(\mathcal{D}^{train};\phi\right)$
 ##### (2) Meta-Testing :
 
@@ -50,6 +52,7 @@ where $\theta = \mathcal{A}\left(\mathcal{D}^{train};\phi\right)$
 $$
 \mathbb{E}_{\mathcal{S}}\left[\mathcal{L}^{meta}\left(\mathcal{D}^{test};\theta,\phi\right)\right]
 $$
+
 where $\theta = \mathcal{A}\left(\mathcal{D}^{train};\phi\right)$
 
 ####  • Method
@@ -61,6 +64,7 @@ $$\begin{equation}\begin{aligned}
 &= \cup\lbrace\mathcal{D}^{train}_1,...,\mathcal{D}^{train}_i,...,\mathcal{D}^{train}_I\rbrace
 \end{aligned}\end{equation} \\
 $$
+
 where $\mathcal{D}^{train}_i$ is the task from $\mathcal{T}$.
 
 **Step2**: **Meta training**, learn a transferrable embedding model $f_{\phi}$, which generalizes to any new task:
@@ -68,6 +72,7 @@ where $\mathcal{D}^{train}_i$ is the task from $\mathcal{T}$.
 $$
 \phi = {\underset {\theta} {\operatorname{arg\, min}}} \mathcal{L}^{ce}\left(\mathcal{D}^{new};\phi\right)
 $$
+
 $\mathcal{L^{ce}}$ denotes the cross-entropy loss.
 
 
