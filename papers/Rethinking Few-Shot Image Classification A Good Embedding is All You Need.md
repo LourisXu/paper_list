@@ -30,17 +30,16 @@
 
 ##### (1) Meta-Traning :
 **The Objective of the Base Learner $\mathcal{A}$ :**
-$$\begin{equation}\begin{aligned}
-\theta &= \mathcal{A}\left(\mathcal{D}^{train};\phi\right) \\
-&= {\underset {\theta} {\operatorname{arg min}}}\, \mathcal{L}^{base}\left(\mathcal{D}^{train};\theta,\phi\right) + \mathcal{R}\left(\theta\right)
-\end{aligned}\end{equation} \\
+$$
+\theta = \mathcal{A}\left(\mathcal{D}^{train};\phi\right)
+= {\underset {\theta} {\operatorname{arg min}}}\, \mathcal{L}^{base}\left(\mathcal{D}^{train};\theta,\phi\right) + \mathcal{R}\left(\theta\right)
 $$
 where $\mathcal{L}$ is the loss function and $\mathcal{R}$ is the regularization term.
 
 **Average test error of $\mathcal{A}$ on tasks:**
 
 $$
-  \phi = {\underset {\theta} {\operatorname{arg\, min}}}\,\mathbb{E}_{\mathcal{T}}\left[\mathcal{L}^{meta}\left(\mathcal{D}^{test};\theta,\phi\right)\right]
+  \phi = {\underset {\theta} {\operatorname{arg min}}}\,\mathbb{E}_{\mathcal{T}}\left[\mathcal{L}^{meta}\left(\mathcal{D}^{test};\theta,\phi\right)\right]
 $$
 where $\theta = \mathcal{A}\left(\mathcal{D}^{train};\phi\right)$
 ##### (2) Meta-Testing :
@@ -56,17 +55,15 @@ where $\theta = \mathcal{A}\left(\mathcal{D}^{train};\phi\right)$
 
 **Step1**: Merge tasks from meta-training set:
 
-$$\begin{equation}\begin{aligned}
-\mathcal{D}^{new} &= \lbrace \left(\mathbf{x}\_i,y_i\right)\rbrace^K_{k=1} \\
-&= \cup\lbrace\mathcal{D}^{train}_1,...,\mathcal{D}^{train}_i,...,\mathcal{D}^{train}_I\rbrace
-\end{aligned}\end{equation} \\
+$$\mathcal{D}^{new} = \lbrace \left(\mathbf{x}\_i,y_i\right)\rbrace^K_{k=1}
+= \cup\lbrace\mathcal{D}^{train}_1,...,\mathcal{D}^{train}_i,...,\mathcal{D}^{train}_I\rbrace
 $$
 where $\mathcal{D}^{train}_i$ is the task from $\mathcal{T}$.
 
 **Step2**: **Meta training**, learn a transferrable embedding model $f_{\phi}$, which generalizes to any new task:
 
 $$
-\phi = {\underset {\theta} {\operatorname{arg\, min}}} \mathcal{L}^{ce}\left(\mathcal{D}^{new};\phi\right)
+\phi = {\underset {\theta} {\operatorname{arg min}}} \mathcal{L}^{ce}\left(\mathcal{D}^{new};\phi\right)
 $$
 $\mathcal{L^{ce}}$ denotes the cross-entropy loss.
 
@@ -74,7 +71,7 @@ $\mathcal{L^{ce}}$ denotes the cross-entropy loss.
 **Step3**: **Meta testing**, sample task $\left(\mathcal{D}^{train}_j, \mathcal{D}^{test}_j\right)$ from meta-testing distribution, training base learner (linear classifier), $\theta = \lbrace\mathbf{W},\mathbf{b}\rbrace$:
 
 $$
-\theta = {\underset {\lbrace\mathbf{W},\mathbf{b}\rbrace} {\operatorname{arg\, min}}} \sum^{T}\_{t=1}\mathcal{L}^{ce}\_t\left(\mathbf{W}f_{\phi}\left(\mathbf{x_t}\right)+\mathbf{b}, y_t\right) + \mathcal{R}\left(\mathbf{W},\mathbf{b}\right).
+\theta = {\underset {\lbrace\mathbf{W},\mathbf{b}\rbrace} {\operatorname{arg min}}} \sum^{T}\_{t=1}\mathcal{L}^{ce}\_t\left(\mathbf{W}f_{\phi}\left(\mathbf{x_t}\right)+\mathbf{b}, y_t\right) + \mathcal{R}\left(\mathbf{W},\mathbf{b}\right).
 $$
 
 **Step4**:
@@ -82,13 +79,13 @@ $$
 **(1) Born-again strategy :** distill the knowledge from the embedding model $\phi$ into a new model $\phi^{\prime}$ with an identical architecture:
 
 $$
-\phi^{\prime} = {\underset {\phi^{\prime}} {\operatorname{arg\, min}}} \left(\alpha\mathcal{L}^{ce}\left(\mathcal{D}^{new};\phi^{\prime}\right) + \beta KL\left(f\left(\mathcal{D}^{new};\phi^{\prime}\right)\right),f\left(\mathcal{D}^{new};\phi\right)\right)
+\phi^{\prime} = {\underset {\phi^{\prime}} {\operatorname{arg min}}} \left(\alpha\mathcal{L}^{ce}\left(\mathcal{D}^{new};\phi^{\prime}\right) + \beta KL\left(f\left(\mathcal{D}^{new};\phi^{\prime}\right)\right),f\left(\mathcal{D}^{new};\phi\right)\right)
 $$
 
 **(2) Self Distillation :** At each step, the embedding model of k-th generation is trained with knowledge transferred from the embedding model of $(k-1)$-th generation:
 
 $$
-\phi^k = {\underset {\phi} {\operatorname{arg\, min}}} \left(\alpha\mathcal{L}^{ce}\left(\mathcal{D}^{new};\phi\right) + \beta KL\left(f\left(\mathcal{D}^{new};\phi\right)\right),f\left(\mathcal{D}^{new};\phi_{k-1}\right)\right)
+\phi^k = {\underset {\phi} {\operatorname{arg min}}} \left(\alpha\mathcal{L}^{ce}\left(\mathcal{D}^{new};\phi\right) + \beta KL\left(f\left(\mathcal{D}^{new};\phi\right)\right),f\left(\mathcal{D}^{new};\phi_{k-1}\right)\right)
 $$
 
 
