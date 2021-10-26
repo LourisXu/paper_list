@@ -30,10 +30,9 @@
 
 ##### (1) Meta-Traning :
 **The Objective of the Base Learner $\mathcal{A}$ :**
-$$\begin{equation}\begin{aligned}
-\theta &= \mathcal{A}\left(\mathcal{D}^{train};\phi\right) \\
-&= {\underset {\theta} {\operatorname{arg\, min}}}\, \mathcal{L}^{base}\left(\mathcal{D}^{train};\theta,\phi\right) + \mathcal{R}\left(\theta\right)
-\end{aligned}\end{equation} \\
+$$
+\theta = \mathcal{A}\left(\mathcal{D}^{train};\phi\right)
+= {\underset {\theta} {\operatorname{arg min}}}\, \mathcal{L}^{base}\left(\mathcal{D}^{train};\theta,\phi\right) + \mathcal{R}\left(\theta\right)
 $$
 
 where $\mathcal{L}$ is the loss function and $\mathcal{R}$ is the regularization term.
@@ -59,10 +58,9 @@ where $\theta = \mathcal{A}\left(\mathcal{D}^{train};\phi\right)$
 
 **Step1**: Merge tasks from meta-training set:
 
-$$\begin{equation}\begin{aligned}
-\mathcal{D}^{new} &= \lbrace \left(\mathbf{x}_i,y_i\right)\rbrace^K_{k=1} \\
-&= \cup\lbrace\mathcal{D}^{train}_1,...,\mathcal{D}^{train}_i,...,\mathcal{D}^{train}_I\rbrace
-\end{aligned}\end{equation}
+$$
+\mathcal{D}^{new} = \lbrace \left(\mathbf{x}_i , y_i\right)\rbrace^K_{k=1}
+= \cup\lbrace\mathcal{D}^{train}_1,...,\mathcal{D}^{train}_i,...,\mathcal{D}^{train}_I\rbrace
 $$
 
 where $\mathcal{D}^{train}_i$ is the task from $\mathcal{T}$.
@@ -70,7 +68,7 @@ where $\mathcal{D}^{train}_i$ is the task from $\mathcal{T}$.
 **Step2**: **Meta training**, learn a transferrable embedding model $f_{\phi}$, which generalizes to any new task:
 
 $$
-\phi = {\underset {\theta} {\operatorname{arg\, min}}} \mathcal{L}^{ce}\left(\mathcal{D}^{new};\phi\right)
+\phi = {\underset {\theta} {\operatorname{arg min}}} \mathcal{L}^{ce}\left(\mathcal{D}^{new};\phi\right)
 $$
 
 $\mathcal{L^{ce}}$ denotes the cross-entropy loss.
@@ -79,7 +77,7 @@ $\mathcal{L^{ce}}$ denotes the cross-entropy loss.
 **Step3**: **Meta testing**, sample task $\left(\mathcal{D}^{train}_j, \mathcal{D}^{test}_j\right)$ from meta-testing distribution, training base learner (linear classifier), $\theta = \lbrace\mathbf{W},\mathbf{b}\rbrace$:
 
 $$
-\theta = {\underset {\lbrace\mathbf{W},\mathbf{b}\rbrace} {\operatorname{arg\, min}}} \sum^{T}_{t=1}\mathcal{L}^{ce}_t\left(\mathbf{W}f_{\phi}\left(\mathbf{x_t}\right)+\mathbf{b}, y_t\right) + \mathcal{R}\left(\mathbf{W},\mathbf{b}\right)
+\theta = {\underset {\lbrace\mathbf{W},\mathbf{b}\rbrace} {\operatorname{arg min}}} \sum^{T}_{t=1}\mathcal{L}^{ce}_t\left(\mathbf{W}f_{\phi}\left(\mathbf{x_t}\right)+\mathbf{b}, y_t\right) + \mathcal{R}\left(\mathbf{W},\mathbf{b}\right)
 $$
 
 **Step4**:
@@ -87,13 +85,13 @@ $$
 **(1) Born-again strategy :** distill the knowledge from the embedding model $\phi$ into a new model $\phi^{\prime}$ with an identical architecture:
 
 $$
-\phi^{\prime} = {\underset {\phi^{\prime}} {\operatorname{arg\, min}}} \left(\alpha\mathcal{L}^{ce}\left(\mathcal{D}^{new};\phi^{\prime}\right) + \beta KL\left(f\left(\mathcal{D}^{new};\phi^{\prime}\right)\right),f\left(\mathcal{D}^{new};\phi\right)\right)
+\phi^{\prime} = {\underset {\phi^{\prime}} {\operatorname{arg min}}} \left(\alpha\mathcal{L}^{ce}\left(\mathcal{D}^{new};\phi^{\prime}\right) + \beta KL\left(f\left(\mathcal{D}^{new};\phi^{\prime}\right)\right),f\left(\mathcal{D}^{new};\phi\right)\right)
 $$
 
 **(2) Self Distillation :** At each step, the embedding model of k-th generation is trained with knowledge transferred from the embedding model of $(k-1)$-th generation:
 
 $$
-\phi^k = {\underset {\phi} {\operatorname{arg\, min}}} \left(\alpha\mathcal{L}^{ce}\left(\mathcal{D}^{new};\phi\right) + \beta KL\left(f\left(\mathcal{D}^{new};\phi\right)\right),f\left(\mathcal{D}^{new};\phi_{k-1}\right)\right)
+\phi^k = {\underset {\phi} {\operatorname{arg min}}} \left(\alpha\mathcal{L}^{ce}\left(\mathcal{D}^{new};\phi\right) + \beta KL\left(f\left(\mathcal{D}^{new};\phi\right)\right),f\left(\mathcal{D}^{new};\phi_{k-1}\right)\right)
 $$
 
 
@@ -132,11 +130,11 @@ python eval_fewshot.py --model_path /path/to/student.pth --data_root /path/to/da
 (2) motified code:
 ```shell
 # supervised pre-training
-# python train_supervised.py --trial pretrain --model_path ./checkpoints --tb_path ./tensorboardlogs --data_root ./data/
+python train_supervised.py --trial pretrain --model_path ./checkpoints --tb_path ./tensorboardlogs --data_root ./data/
 
 # distillation
 # setting '-a 1.0' should give simimlar performance
-# python train_distillation.py -r 0.5 -a 0.5 --path_t ./checkpoints/resnet12_miniImageNet_lr_0.05_decay_0.0005_trans_A_trial_pretrain/resnet12_last.pth --trial born1 --model_path ./dis_checkpoints --tb_path ./dis_tensorboardlogs --data_root ./data/
+python train_distillation.py -r 0.5 -a 0.5 --path_t ./checkpoints/resnet12_miniImageNet_lr_0.05_decay_0.0005_trans_A_trial_pretrain/resnet12_last.pth --trial born1 --model_path ./dis_checkpoints --tb_path ./dis_tensorboardlogs --data_root ./data/
 
 # evaluation
 python eval_fewshot.py --model_path ./dis_checkpoints/S:resnet12_T:resnet12_miniImageNet_kd_r:0.5_a:0.5_b:0_trans_A_born1/resnet12_last.pth --data_root ./data/miniImageNet/
