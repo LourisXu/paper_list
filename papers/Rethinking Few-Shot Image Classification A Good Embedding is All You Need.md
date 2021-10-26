@@ -22,7 +22,7 @@
 |Meta-Training Tasks (Sets)|$\mathcal{T} = \lbrace \left(\mathcal{D}^{train}_i, \mathcal{D}^{test}_i \right)\rbrace^I_{i=1}$||
 |--:|:--|--|
 |**Meta-Testing Tasks (Sets)**|$\mathcal{S} = \lbrace \left(\mathcal{D}^{train}_j, \mathcal{D}^{test}_j \right)\rbrace^J_{j=1}$||
-|**Meta-Testing Case**|$\mathcal{D}^{train}=\lbrace\left(x_t,\,y_t\right)\rbrace^T_{t=1}$ <br> $\mathcal{D}^{test}=\lbrace\left(x_q,\,y_q\right)\rbrace^Q_{q=1}$||
+|**Meta-Testing Case**|$\mathcal{D}^{train}=\lbrace\left(x_t,\,y_t\right)\rbrace^T_{t=1}$ $\mathcal{D}^{test}=\lbrace\left(x_q,\,y_q\right)\rbrace^Q_{q=1}$||
 |**Embedding Model**|$\Phi_{\ast}=f_{\phi}\left(x_{\ast}\right)$|Backbone, $\ast$ denotes $t$ or $q$|
 |**Base Learner $\mathcal{A}$**|$y_{\ast}=f_{\theta}\left(x_{\ast}\right)$|Linear Classifier|
 
