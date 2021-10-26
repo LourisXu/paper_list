@@ -62,7 +62,7 @@ where $\theta = \mathcal{A}\left(\mathcal{D}^{train};\phi\right)$
 $$\begin{equation}\begin{aligned}
 \mathcal{D}^{new} &= \lbrace \left(\mathbf{x}_i,y_i\right)\rbrace^K_{k=1} \\
 &= \cup\lbrace\mathcal{D}^{train}_1,...,\mathcal{D}^{train}_i,...,\mathcal{D}^{train}_I\rbrace
-\end{aligned}\end{equation} \\
+\end{aligned}\end{equation}
 $$
 
 where $\mathcal{D}^{train}_i$ is the task from $\mathcal{T}$.
@@ -79,7 +79,7 @@ $\mathcal{L^{ce}}$ denotes the cross-entropy loss.
 **Step3**: **Meta testing**, sample task $\left(\mathcal{D}^{train}_j, \mathcal{D}^{test}_j\right)$ from meta-testing distribution, training base learner (linear classifier), $\theta = \lbrace\mathbf{W},\mathbf{b}\rbrace$:
 
 $$
-\theta = {\underset {\lbrace\mathbf{W},\mathbf{b}\rbrace} {\operatorname{arg\, min}}} \sum^{T}_{t=1}\mathcal{L}^{ce}_t\left(\mathbf{W}f_{\phi}\left(\mathbf{x_t}\right)+\mathbf{b}, y_t\right) + \mathcal{R}\left(\mathbf{W},\mathbf{b}\right).
+\theta = {\underset {\lbrace\mathbf{W},\mathbf{b}\rbrace} {\operatorname{arg\, min}}} \sum^{T}_{t=1}\mathcal{L}^{ce}_t\left(\mathbf{W}f_{\phi}\left(\mathbf{x_t}\right)+\mathbf{b}, y_t\right) + \mathcal{R}\left(\mathbf{W},\mathbf{b}\right)
 $$
 
 **Step4**:
