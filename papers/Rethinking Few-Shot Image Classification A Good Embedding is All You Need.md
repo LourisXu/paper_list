@@ -88,6 +88,8 @@ $$
 \phi^k = {\underset {\phi} {\operatorname{arg min}}} \left(\alpha\mathcal{L}^{ce}\left(\mathcal{D}^{new};\phi\right) + \beta KL\left(f\left(\mathcal{D}^{new};\phi\right)\right),f\left(\mathcal{D}^{new};\phi_{k-1}\right)\right)
 $$
 
+where $\alpha = 1 - \beta$.
+
 
 ### 2. Algorithm
 
@@ -291,7 +293,7 @@ def meta_test(net, testloader, use_logit=True, is_norm=True, classifier='LR', op
 |   CIFAR-FS       |A derivative of the original CIFAR-100 dataset by randomly splitting 100 classes into 64, 16 and 20 classes for training, validation, and testing, respectively          |  https://www.dropbox.com/sh/6yd1ygtyc3yd981/AABVeEqzC08YQv4UZk7lNHvya?dl=0    |
 |   Tiered-ImageNet      |Another subset of ImageNet but has more classes (608 classes). These classes are first grouped into 34 higher-level categories, which are further divided into 20 training categories (351 classes), 6 validation categories (97 classes), and 8 testing categories (160 classes). Such construction ensures the training set is distinctive enough from the testing set and makes the problem more challenging.            |  https://www.dropbox.com/sh/6yd1ygtyc3yd981/AABVeEqzC08YQv4UZk7lNHvya?dl=0    |
 |   FC100       |Also derived from CIFAR-100 dataset in a similar way to tieredImagNnet.          |   https://www.dropbox.com/sh/6yd1ygtyc3yd981/AABVeEqzC08YQv4UZk7lNHvya?dl=0   |
-|          |   R[3]: Optimization as a model for few-shot learning. ICLR 2017         |      |
+|          |   **R[3]**: Optimization as a model for few-shot learning. ICLR 2017         |      |
 
 #### •  Hyper-Parameters
 
