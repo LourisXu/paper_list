@@ -19,11 +19,40 @@
 
 **pytorch**
 
-**强烈建议除了NLP和RNN的内容，其他全部跟着敲一遍，上机器跑一遍，自己事情自己干，不然项目结构看不懂容易抓瞎，不要想着别人给你写代码，然后自己在那里玩╰_╯╬**
+**强烈建议除了NLP和RNN的内容，其他全部跟着敲一遍，上机器跑一遍，自己事情自己干，不然项目结构看不懂容易抓瞎**
 
 [动手学深度学习](https://tangshusen.me/Dive-into-DL-PyTorch/#/)
 
-### 参考
+### Latex/Markdown公式
+
+Makrdown公式：
+
+（1）行内：`$ \theta $`
+
+哈哈哈哈 $\theta$ 哈哈哈哈
+
+（2）段内：`$$ \theta $$`
+
+$$\theta$$
+
+**注意markdown公式符号特殊问题：**
+
+（1）下标`_`有时候解析有问题，需要`\_`才生效
+
+（2）符号`&`需要`&amp;`才生效: &amp;
+
+（3）符号`<`需要`&lt;`才生效：&lt;
+
+参考：
+
+[Markdown公式符号](https://www.zybuluo.com/codeep/note/163962)
+
+[Markdown语法](https://www.appinn.com/markdown/)
+
+[Latex公式符号](https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference)
+
+
+### 详细资料参考
 
 [Deep Learning Tutorial](https://github.com/Mikoto10032/DeepLearning)
 
@@ -171,4 +200,26 @@ scp -P port_number [-R] file_path/dir_path username@ip:dst_dir_path
 conda install cudatoolkit=10.1 -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/linux-64
 conda install cudnn=7.6.5 -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/linux-64
 
+```
+
+#### Git设置
+
+##### Git的代理设置
+
+VPN设置：百度`Ghelper`安装后，会员下载PC端VPN然后，设置本地系统代理，WIN10下网络中的代理设置手动代理，以`127.0.0.1:7890`为例
+设置代理
+```
+git config --global http.proxy=http://127.0.0.1:7890
+git config --global https.proxy=https://127.0.0.1:7890
+```
+取消代理
+```
+git config --global --unset http.proxy
+
+git config --global --unset https.proxy
+```
+
+查看git配置
+```
+git config --global --list
 ```

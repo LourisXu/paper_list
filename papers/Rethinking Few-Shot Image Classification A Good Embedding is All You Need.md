@@ -33,6 +33,7 @@
 $$
 \theta = \mathcal{A}\left(\mathcal{D}^{train};\phi\right)
 = {\underset {\theta} {\operatorname{arg min}}}\, \mathcal{L}^{base}\left(\mathcal{D}^{train};\theta,\phi\right) + \mathcal{R}\left(\theta\right)
+
 $$
 where $\mathcal{L}$ is the loss function and $\mathcal{R}$ is the regularization term.
 
@@ -280,7 +281,7 @@ def meta_test(net, testloader, use_logit=True, is_norm=True, classifier='LR', op
 
 |     Code | https://github.com/WangYueFt/rfs |
 | -------: | -------------------------------------- |
-|  **Env** | Pytorch 1.6, CUDA 10.1, Python 3.7,Linux ubuntu 4.15.0-122-generic|
+|  **Env** | Ubuntu 16.04.5 LTS, Python 3.5, PyTorch 0.4.0, and CUDA 9.0|
 |   **IP** | 122.207.82.54:14000                   |
 | **Path** | /homec/xulei/rfs/                   |
 |  **GPU** | GeForce RTX 2080Ti, 10G |
@@ -311,10 +312,6 @@ def meta_test(net, testloader, use_logit=True, is_norm=True, classifier='LR', op
 | :-----: | :------: | :----: |
 |   Mini-ImageNet   | test-acc-feat |   0.5597     |  
 |         |   test-std   |   0.0079     |
-
-## Comments
-
-- Good Paper
 
 ## BibTex
 
