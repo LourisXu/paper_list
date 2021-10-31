@@ -30,11 +30,12 @@
 
 ##### (1) Meta-Traning :
 **The Objective of the Base Learner $\mathcal{A}$ :**
-$$
-\theta = \mathcal{A}\left(\mathcal{D}^{train};\phi\right)
-= {\underset {\theta} {\operatorname{arg min}}}\, \mathcal{L}^{base}\left(\mathcal{D}^{train};\theta,\phi\right) + \mathcal{R}\left(\theta\right)
 
 $$
+\theta = \mathcal{A}\left(\mathcal{D}^{train};\phi\right)
+= {\underset {\theta} {\operatorname{arg min}}} \mathcal{L}^{base}\left(\mathcal{D}^{train};\theta,\phi\right) + \mathcal{R}\left(\theta\right)
+$$
+
 where $\mathcal{L}$ is the loss function and $\mathcal{R}$ is the regularization term.
 
 **Average test error of $\mathcal{A}$ on tasks:**
