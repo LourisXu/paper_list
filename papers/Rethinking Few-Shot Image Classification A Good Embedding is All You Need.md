@@ -13,18 +13,6 @@
 |      **Comments** |                                                              |
 
 
-## Methoddata_dir = os.path.join("D:\\", "download", "dataset", "NCT-CRC-HE-100K-NONORM")
-
-class_dirs = os.listdir(os.path.join(data_dir))
-
-print(class_dirs)
-
-x = list(np.arange(0, 10))
-print(x)
-y = [2, 3, 4]
-z = np.setxor1d(x, y)
-print(z)
-
 ### 1. Overview
 
 ####  • Symbols
