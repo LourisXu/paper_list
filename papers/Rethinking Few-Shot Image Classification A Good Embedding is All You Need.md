@@ -13,84 +13,118 @@
 |      **Comments** |                                                              |
 
 
-## Method
+## Methoddata_dir = os.path.join("D:\\", "download", "dataset", "NCT-CRC-HE-100K-NONORM")
+
+class_dirs = os.listdir(os.path.join(data_dir))
+
+print(class_dirs)
+
+x = list(np.arange(0, 10))
+print(x)
+y = [2, 3, 4]
+z = np.setxor1d(x, y)
+print(z)
 
 ### 1. Overview
 
 ####  • Symbols
 
-|Meta-Training Tasks (Sets)|$\mathcal{T} = \lbrace \left(\mathcal{D}^{train}\_i, \mathcal{D}^{test}\_i \right)\rbrace^I\_{i=1}$||
+|Meta-Training Tasks (Sets)|<!-- $\mathcal{T} = \lbrace \left(\mathcal{D}^{train}_i, \mathcal{D}^{test}_i \right)\rbrace^I_{i=1}$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\Jjdl3Orp4t.svg">||
 |--:|:--|--|
-|**Meta-Testing Tasks (Sets)**|$\mathcal{S} = \lbrace \left(\mathcal{D}^{train}\_j, \mathcal{D}^{test}\_j \right)\rbrace^J\_{j=1}$||
-|**Meta-Testing Case**|$\mathcal{D}^{train}=\lbrace\left(x_t,\,y_t\right)\rbrace^T_{t=1}$ <br> $\mathcal{D}^{test}=\lbrace\left(x_q,\,y_q\right)\rbrace^Q_{q=1}$||
-|**Embedding Model**|$\Phi_{\ast}=f_{\phi}\left(x_{\ast}\right)$|Backbone, $\ast$ denotes $t$ or $q$|
-|**Base Learner $\mathcal{A}$**|$y_{\ast}=f_{\theta}\left(x_{\ast}\right)$|Linear Classifier|
+|**Meta-Testing Tasks (Sets)**|<!-- $\mathcal{S} = \lbrace \left(\mathcal{D}^{train}_j, \mathcal{D}^{test}_j \right)\rbrace^J_{j=1}$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\4zcBrqwmW7.svg">||
+|**Meta-Testing Case**|<!-- $\mathcal{D}^{train}=\lbrace\left(x_t,\,y_t\right)\rbrace^T_{t=1}$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\MXlR9iDEux.svg"> <br> <!-- $\mathcal{D}^{test}=\lbrace\left(x_q,\,y_q\right)\rbrace^Q_{q=1}$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\Dn9huMunaN.svg">||
+|**Embedding Model**|<!-- $\Phi_{\ast}=f_{\phi}\left(x_{\ast}\right)$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\ZASPnp7K3k.svg">|Backbone, <!-- $\ast$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\wF5MwmbrpV.svg"> denotes <!-- $t$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\fSo5uZjxOq.svg"> or <!-- $q$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\VKcwWUQDVk.svg">|
+|**Base Learner $\mathcal{A}$**|<!-- $y_{\ast}=f_{\theta}\left(x_{\ast}\right)$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\OFxDa3g6a2.svg">|Linear Classifier|
 
 ####  • Problem Formulation
 
 ##### (1) Meta-Traning :
 **The Objective of the Base Learner $\mathcal{A}$ :**
 
-$$
-\theta = \mathcal{A}\left(\mathcal{D}^{train};\phi\right)
-= {\underset {\theta} {\operatorname{arg min}}} \mathcal{L}^{base}\left(\mathcal{D}^{train};\theta,\phi\right) + \mathcal{R}\left(\theta\right)
-$$
+<!-- $$
+\begin{equation}\begin{aligned}
+\theta &= \mathcal{A}\left(\mathcal{D}^{train};\phi\right) \\
+&= {\underset {\theta} {\operatorname{arg min}}}\, \mathcal{L}^{base}\left(\mathcal{D}^{train};\theta,\phi\right) + \mathcal{R}\left(\theta\right)
+\end{aligned}\end{equation}
+$$ --> 
 
-where $\mathcal{L}$ is the loss function and $\mathcal{R}$ is the regularization term.
+<div align="center"><img style="background: white;" src="..\svg\3RP4wTKyU9.svg"></div>
+
+where <!-- $\mathcal{L}$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\4kLJtnhlM8.svg"> is the loss function and <!-- $\mathcal{R}$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\KyVsOFUmcW.svg"> is the regularization term.
 
 **Average test error of $\mathcal{A}$ on tasks:**
 
-$$
+<!-- $$
   \phi = {\underset {\theta} {\operatorname{arg min}}}\,\mathbb{E}_{\mathcal{T}}\left[\mathcal{L}^{meta}\left(\mathcal{D}^{test};\theta,\phi\right)\right]
-$$
-where $\theta = \mathcal{A}\left(\mathcal{D}^{train};\phi\right)$
+$$ --> 
+
+<div align="center"><img style="background: white;" src="..\svg\La9Lf3NBA3.svg"></div>
+where <!-- $\theta = \mathcal{A}\left(\mathcal{D}^{train};\phi\right)$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\ySkAn3a4z3.svg">
+
 ##### (2) Meta-Testing :
 
 **Evaluation of the model :**
 
-$$
+<!-- $$
 \mathbb{E}_{\mathcal{S}}\left[\mathcal{L}^{meta}\left(\mathcal{D}^{test};\theta,\phi\right)\right]
-$$
-where $\theta = \mathcal{A}\left(\mathcal{D}^{train};\phi\right)$
+$$ --> 
+
+<div align="center"><img style="background: white;" src="..\svg\IweY9bbNAB.svg"></div>
+where <!-- $\theta = \mathcal{A}\left(\mathcal{D}^{train};\phi\right)$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\GuEyibiO51.svg">
 
 ####  • Method
 
 **Step1**: Merge tasks from meta-training set:
 
-$$\mathcal{D}^{new} = \lbrace \left(\mathbf{x}\_i,y_i\right)\rbrace^K_{k=1}
-= \cup\lbrace\mathcal{D}^{train}_1,...,\mathcal{D}^{train}_i,...,\mathcal{D}^{train}_I\rbrace
-$$
-where $\mathcal{D}^{train}_i$ is the task from $\mathcal{T}$.
+<!-- $$
+\begin{equation}\begin{aligned}
+\mathcal{D}^{new} &= \lbrace \left(\mathbf{x}_i,y_i\right)\rbrace^K_{k=1} \\
+&= \cup\lbrace\mathcal{D}^{train}_1,...,\mathcal{D}^{train}_i,...,\mathcal{D}^{train}_I\rbrace
+\end{aligned}\end{equation}
+$$ --> 
 
-**Step2**: **Meta training**, learn a transferrable embedding model $f_{\phi}$, which generalizes to any new task:
+<div align="center"><img style="background: white;" src="..\svg\VR93EXo6SP.svg"></div>
 
-$$
+
+where <!-- $\mathcal{D}^{train}_i$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\8AMnrOcu2a.svg"> is the task from <!-- $\mathcal{T}$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\0NsvjHxGCF.svg">.
+
+**Step2**: **Meta training**, learn a transferrable embedding model <!-- $f_{\phi}$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\DyKl1DJhME.svg">, which generalizes to any new task:
+
+<!-- $$
 \phi = {\underset {\theta} {\operatorname{arg min}}} \mathcal{L}^{ce}\left(\mathcal{D}^{new};\phi\right)
-$$
-$\mathcal{L^{ce}}$ denotes the cross-entropy loss.
+$$ --> 
+
+<div align="center"><img style="background: white;" src="..\svg\MNMNYIPWlp.svg"></div>
+<!-- $\mathcal{L^{ce}}$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\YUCwTh65vp.svg"> denotes the cross-entropy loss.
 
 
-**Step3**: **Meta testing**, sample task $\left(\mathcal{D}^{train}_j, \mathcal{D}^{test}_j\right)$ from meta-testing distribution, training base learner (linear classifier), $\theta = \lbrace\mathbf{W},\mathbf{b}\rbrace$:
+**Step3**: **Meta testing**, sample task <!-- $\left(\mathcal{D}^{train}_j, \mathcal{D}^{test}_j\right)$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\yxcPVhs9bP.svg"> from meta-testing distribution, training base learner (linear classifier), <!-- $\theta = \lbrace\mathbf{W},\mathbf{b}\rbrace$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\sM9Kq4hH14.svg">:
 
-$$
-\theta = {\underset {\lbrace\mathbf{W},\mathbf{b}\rbrace} {\operatorname{arg min}}} \sum^{T}\_{t=1}\mathcal{L}^{ce}\_t\left(\mathbf{W}f_{\phi}\left(\mathbf{x_t}\right)+\mathbf{b}, y_t\right) + \mathcal{R}\left(\mathbf{W},\mathbf{b}\right).
-$$
+<!-- $$
+\theta = {\underset {\lbrace\mathbf{W},\mathbf{b}\rbrace} {\operatorname{arg min}}} \sum^{T}_{t=1}\mathcal{L}^{ce}_t\left(\mathbf{W}f_{\phi}\left(\mathbf{x_t}\right)+\mathbf{b}, y_t\right) + \mathcal{R}\left(\mathbf{W},\mathbf{b}\right).
+$$ --> 
+
+<div align="center"><img style="background: white;" src="..\svg\kTGJLzNCW5.svg"></div>
 
 **Step4**:
 
-**(1) Born-again strategy :** distill the knowledge from the embedding model $\phi$ into a new model $\phi^{\prime}$ with an identical architecture:
+**(1) Born-again strategy :** distill the knowledge from the embedding model <!-- $\phi$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\sXkJ5ENb3I.svg"> into a new model <!-- $\phi^{\prime}$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\vZ72PXF0ly.svg"> with an identical architecture:
 
-$$
+<!-- $$
 \phi^{\prime} = {\underset {\phi^{\prime}} {\operatorname{arg min}}} \left(\alpha\mathcal{L}^{ce}\left(\mathcal{D}^{new};\phi^{\prime}\right) + \beta KL\left(f\left(\mathcal{D}^{new};\phi^{\prime}\right)\right),f\left(\mathcal{D}^{new};\phi\right)\right)
-$$
+$$ --> 
 
-**(2) Self Distillation :** At each step, the embedding model of k-th generation is trained with knowledge transferred from the embedding model of $(k-1)$-th generation:
+<div align="center"><img style="background: white;" src="..\svg\nk6ZEufUzQ.svg"></div>
 
-$$
+**(2) Self Distillation :** At each step, the embedding model of k-th generation is trained with knowledge transferred from the embedding model of <!-- $(k-1)$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\a6BypkiNRR.svg">-th generation:
+
+<!-- $$
 \phi^k = {\underset {\phi} {\operatorname{arg min}}} \left(\alpha\mathcal{L}^{ce}\left(\mathcal{D}^{new};\phi\right) + \beta KL\left(f\left(\mathcal{D}^{new};\phi\right)\right),f\left(\mathcal{D}^{new};\phi_{k-1}\right)\right)
-$$
+$$ --> 
 
-where $\alpha = 1 - \beta$.
+<div align="center"><img style="background: white;" src="..\svg\6fnXFhnDcL.svg"></div>
+
+where <!-- $\alpha = 1 - \beta$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\wZdihNes4W.svg">.
 
 
 ### 2. Algorithm
@@ -282,7 +316,7 @@ def meta_test(net, testloader, use_logit=True, is_norm=True, classifier='LR', op
 
 |     Code | https://github.com/WangYueFt/rfs |
 | -------: | -------------------------------------- |
-|  **Env** | Ubuntu 16.04.5 LTS, Python 3.5, PyTorch 0.4.0, and CUDA 9.0|
+|  **Env** | Ubuntu 16.04.5 LTS, Python 3.7, PyTorch 1.6.0, and cudatoolkit 10.0.130: `conda activate base`|
 |   **IP** | 122.207.82.54:14000                   |
 | **Path** | /homec/xulei/rfs/                   |
 |  **GPU** | GeForce RTX 2080Ti, 10G |
@@ -290,29 +324,39 @@ def meta_test(net, testloader, use_logit=True, is_norm=True, classifier='LR', op
 #### **•  Datasets**
 
 | Datasets | Description | Url  |
-| -------: |:----------- |:---- |
+| ------- |:----------- |:---- |
 |  Mini-ImageNet         |A standard benchmark for few-shot learning algorithms. It consists of 100 classes randomly sampled from the ImageNet; each class contains 600 downsampled images of size 84 × 84. We follow the widely-used splitting protocol proposed in **R[3]**, which uses 64 classes for meta-training, 16 classes for meta-validation, and 20 classes for meta-testing          |  https://www.dropbox.com/sh/6yd1ygtyc3yd981/AABVeEqzC08YQv4UZk7lNHvya?dl=0    |
 |   CIFAR-FS       |A derivative of the original CIFAR-100 dataset by randomly splitting 100 classes into 64, 16 and 20 classes for training, validation, and testing, respectively          |  https://www.dropbox.com/sh/6yd1ygtyc3yd981/AABVeEqzC08YQv4UZk7lNHvya?dl=0    |
 |   Tiered-ImageNet      |Another subset of ImageNet but has more classes (608 classes). These classes are first grouped into 34 higher-level categories, which are further divided into 20 training categories (351 classes), 6 validation categories (97 classes), and 8 testing categories (160 classes). Such construction ensures the training set is distinctive enough from the testing set and makes the problem more challenging.            |  https://www.dropbox.com/sh/6yd1ygtyc3yd981/AABVeEqzC08YQv4UZk7lNHvya?dl=0    |
 |   FC100       |Also derived from CIFAR-100 dataset in a similar way to tieredImagNnet.          |   https://www.dropbox.com/sh/6yd1ygtyc3yd981/AABVeEqzC08YQv4UZk7lNHvya?dl=0   |
 |          |   **R[3]**: Optimization as a model for few-shot learning. ICLR 2017         |      |
+|NCT-CRC-HE-100K-NONORM|This is a slightly different version of the "NCT-CRC-HE-100K" image set: This set contains 100,000 images in 9 tissue classes at 0.5 MPP and was created from the same raw data as "NCT-CRC-HE-100K". However, no color normalization was applied to these images. Consequently, staining intensity and color slightly varies between the images. Please note that although this image set was created from the same data as "NCT-CRC-HE-100K", the image regions are not completely identical because the selection of non-overlapping tiles from raw images was a stochastic process.|https://zenodo.org/record/1214456#.YX5-yBpByUk|
 
 #### •  Hyper-Parameters
 
 |         Parameter | Value     |
 | ----------------: | --------- |
-| **epochs** | 10 |
 | **others** | default |
 
 ...
 
 ### 2. Results
 
-
 | Dataset |  Metric  | Setup1 |
 | :-----: | :------: | :----: |
-|   Mini-ImageNet   | test-acc-feat |   0.5597     |  
-|         |   test-std   |   0.0079     |
+|5-ways 1-shot||||
+|   CIFAR-FS   | test-acc-feat |   0.7508     |  
+|         |   test-std   |   0.0080     |
+|   MiniImageNet   | test-acc-feat |   0.6278     |  
+|         |   test-std   |   0.0070     |
+|   FC100   | test-acc-feat |   0.4339     |  
+|         |   test-std   |   0.0077     |
+|2-ways 1-shot(train:3 val:3 test:3)|||
+|NCT-CRC-HE-100K-NONORM|||
+|resize: 32 x 32| test-acc-feat |   0.5759     |  
+|         |   test-std   |   0.0118     |
+|origin: 224 x 224| test-acc-feat |   0.6438     |  
+|         |   test-std   |   0.0115     |
 
 ## BibTex
 

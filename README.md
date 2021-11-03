@@ -187,7 +187,7 @@ set mouse=a
 #### 服务器传文件
 
 ```
-scp -P port_number [-R] file_path/dir_path username@ip:dst_dir_path
+scp -P port_number [-r] file_path/dir_path username@ip:dst_dir_path
 ```
 
 #### CUDA与CUDNN安装
