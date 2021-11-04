@@ -75,7 +75,6 @@ $$ -->
 
 <div align="center"><img style="background: white;" src="..\svg\VR93EXo6SP.svg"></div>
 
-
 where <!-- $\mathcal{D}^{train}_i$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\8AMnrOcu2a.svg"> is the task from <!-- $\mathcal{T}$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\0NsvjHxGCF.svg">.
 
 **Step2**: **Meta training**, learn a transferrable embedding model <!-- $f_{\phi}$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\DyKl1DJhME.svg">, which generalizes to any new task:
@@ -85,6 +84,7 @@ where <!-- $\mathcal{D}^{train}_i$ --> <img style="transform: translateY(0.1em);
 $$ --> 
 
 <div align="center"><img style="background: white;" src="..\svg\MNMNYIPWlp.svg"></div>
+
 <!-- $\mathcal{L^{ce}}$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\YUCwTh65vp.svg"> denotes the cross-entropy loss.
 
 
