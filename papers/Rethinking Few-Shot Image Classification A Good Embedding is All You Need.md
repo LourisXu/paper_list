@@ -234,7 +234,7 @@ for idx, data in enumerate(train_loader):
     end = time.time()
 ```
 
-(3) `eval_fewshot.py`:
+(3) `eval_fewshot.py`: run the meta-testing tasks
 ```python
 def meta_test(net, testloader, use_logit=True, is_norm=True, classifier='LR', opt=None):
     net = net.eval()
@@ -301,6 +301,7 @@ def meta_test(net, testloader, use_logit=True, is_norm=True, classifier='LR', op
 （4）Datasets
 
 For instance, the `cifar.py` shows the pipepline for loading data:
+
 A. `CIFAR100`: A standard flow for loading data and applying the transform to imgs
 ```python
 class CIFAR100(Dataset):
@@ -399,7 +400,8 @@ class CIFAR100(Dataset):
     def __len__(self):
         return len(self.labels)
 ```
-B. `MetaCIFAR100`: For meta-learning, the meta-training tasks or meta-testing tasks is divided according to categories, and the categories of meta-training tasks and meta-testing taks are mutually exclusive. To generate a support/query set in a meta-training/meta-testing task, we should select randomly `n-ways` classes from the total categories in the meta-training task as support set, and `n-shots` imgs of each class form a support set, and all the remaining or `n-queries` imgs of each class form a query set. As the code shown:
+
+B. `MetaCIFAR100`: For meta-learning, the meta-training tasks or meta-testing tasks is divided according to categories, and the categories of meta-training tasks and meta-testing taks are mutually exclusive. To generate a support/query set in a meta-training/meta-testing task, we should select randomly `n-ways` classes from the total categories in the meta-training/meta-testing tasks as a support/query set, where `n-shots` imgs of each class form a support set and all the remaining or `n-queries` imgs of each class form a query set. As the code shown:
 ```python
 
 class MetaCIFAR100(CIFAR100):
@@ -446,7 +448,7 @@ class MetaCIFAR100(CIFAR100):
     def __getitem__(self, item):
         if self.fix_seed:
             np.random.seed(item)
-        # select randomly n-ways classes 
+        # select randomly n-ways classes
         cls_sampled = np.random.choice(self.classes, self.n_ways, False)
         support_xs = []
         support_ys = []
@@ -458,7 +460,7 @@ class MetaCIFAR100(CIFAR100):
             support_xs_ids_sampled = np.random.choice(range(imgs.shape[0]), self.n_shots, False)
             support_xs.append(imgs[support_xs_ids_sampled])
             support_ys.append([idx] * self.n_shots)
-            # select randomly n-queries imgs for the query set, that must be contained in the support set
+            # select randomly n-queries imgs for the query set, that must not be contained in the support set
             query_xs_ids = np.setxor1d(np.arange(imgs.shape[0]), support_xs_ids_sampled) # xor operation
             query_xs_ids = np.random.choice(query_xs_ids, self.n_queries, False)
             query_xs.append(imgs[query_xs_ids])
@@ -483,7 +485,7 @@ class MetaCIFAR100(CIFAR100):
         return support_xs, support_ys, query_xs, query_ys
 
     def __len__(self):
-        return self.n_test_runs
+        return self.n_test_runs  # n_test_runs denotes the number of meta-testing tasks.
 ```
 
 ## Experiments
