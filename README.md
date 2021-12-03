@@ -199,7 +199,6 @@ scp -P port_number [-r] file_path/dir_path username@ip:dst_dir_path
 ```
 conda install cudatoolkit=10.1 -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/linux-64
 conda install cudnn=7.6.5 -c https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/linux-64
-
 ```
 
 #### Git设置
@@ -223,3 +222,27 @@ git config --global --unset https.proxy
 ```
 git config --global --list
 ```
+
+
+### 服务器使用若干问题
+
+1. 内存占用高
+
+一般是数据一次性加载到内存导致的，如果考虑每次批次读取数据就不会出现该问题，即每次训练通过dataset去读取对应数据，因为dataset一般是获取第item个数据，然后通过DataLoader批次加载数据。
+数据量大的情况下一次性加载内存占用会很高。
+
+2. GPU利用率低
+
+一般是数据加载过程中，不是直接加载训练要的特征，而是在dataset里进行了预处理数据，预处理数据很慢导致GPU一直在等待CPU预处理完的数据导致的。
+可以考虑全部提取特征保存后，之后训练直接加载特征，来提高GPU利用率。
+
+3. 指定GPU
+
+```python
+import os
+
+os.environ['CUDA_VISIBLE_DEVICES'] = '0, 1, 4'
+```
+通过os指定GPU，pytorch的指定时在该基础上根据后面的`0,1,4`确定相对顺序的GPU。
+
+
