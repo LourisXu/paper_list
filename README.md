@@ -121,6 +121,10 @@ pip install pandas #看情况使用pip，有些依赖conda没有
 #### 镜像源
 
 外网资源需要配置镜像
+以下配置清华源，其他参见官网链接：
+[清华源](https://mirrors.tuna.tsinghua.edu.cn/)
+[腾讯云镜像](https://mirrors.cloud.tencent.com/)
+[阿里云镜像](https://developer.aliyun.com/mirror/)
 
 ##### pip镜像
 
@@ -143,7 +147,6 @@ trusted-host = https://pypi.tuna.tsinghua.edu.cn
 
 ##### Conda镜像
 
-配置清华源，其他阿里源等自行百度
 ```
 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/
 conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main/
