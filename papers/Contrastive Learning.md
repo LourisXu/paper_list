@@ -772,10 +772,10 @@ def train(epoch, train_loader, model, contrast, criterion_l, criterion_ab, optim
 
 ## References
 
-[1]. He K, Fan H, Wu Y, et al. Momentum contrast for unsupervised visual representation learning[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2020: 9729-9738.
+[1]. He K, Fan H, Wu Y, et al. Momentum contrast for unsupervised visual representation learning[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2020: 9729-9738. [paper](https://arxiv.org/abs/1911.05722) [code](https://github.com/facebookresearch/moco)
 
-[2]. Chen T, Kornblith S, Norouzi M, et al. A simple framework for contrastive learning of visual representations[C]//International conference on machine learning. PMLR, 2020: 1597-1607.
+[2]. Chen T, Kornblith S, Norouzi M, et al. A simple framework for contrastive learning of visual representations[C]//International conference on machine learning. PMLR, 2020: 1597-1607. [paper](https://arxiv.org/pdf/2002.05709.pdf) [code](https://github.com/Spijkervet/SimCLR)
 
-[3]. Chen X, He K. Exploring simple siamese representation learning[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2021: 15750-15758.
+[3]. Chen X, He K. Exploring simple siamese representation learning[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2021: 15750-15758. [paper](https://arxiv.org/abs/2011.10566) [code](https://github.com/facebookresearch/simsiam)
 
-[4]. Tian Y, Krishnan D, Isola P. Contrastive multiview coding[C]//Computer Vision–ECCV 2020: 16th European Conference, Glasgow, UK, August 23–28, 2020, Proceedings, Part XI 16. Springer International Publishing, 2020: 776-794.
+[4]. Tian Y, Krishnan D, Isola P. Contrastive multiview coding[C]//Computer Vision–ECCV 2020: 16th European Conference, Glasgow, UK, August 23–28, 2020, Proceedings, Part XI 16. Springer International Publishing, 2020: 776-794. [paper](https://arxiv.org/abs/1906.05849) [code](https://github.com/HobbitLong/CMC)
