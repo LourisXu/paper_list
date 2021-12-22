@@ -1,12 +1,13 @@
 
 ## Comparison
 
-|Method|Mechanism|Update Type of Encode |Others|
-|:--|:--|:--|:--|
-|MoCo[1]|通过memory bank存储`encode_k`之前得到的embeddings（刚开始随机初始化$k=2^16$个常驻内存），而每批次计算时，同一张图像的两个增强视图v1,v2构成positive pairs，再从memory bank中拿出k个embeddings与v1 构成k个negative pairs，计算相似性，然后计算InfoNCE Loss；通过先进先出更新memory bank | 移动平均$\theta_k = m * \theta_k + (1 - m) * \theta_q$ ||
-|SimCLR[2]|与MoCo不同，不需要memory bank暂存embeddings，而是将同一个batchsize的样本中，同一样本的两个增强视图作为positive pair，而与其他batchsize - 1个第一类增强视图以及batchsize个第二类增强视图构成`2 * batchsize - 1`个negative pair，计算相似性，然后计算InfoNCE|非共享权重，独立更新|需要大的batchsize和好的增强组合|
-|Simsiam[3]|与MoCo, SimCLR不同，不需要计算positive/negative pair，通过对称的余弦相似性计算的方式直接计算损失|共享权重||
-|CMC[4]|将MoCo的memory bank作用到了两/多个分支上，更新方式与MoCo类似，将两两Encoder进行loss计算，更新模型，这样便可以应用到多视图/多模态，|独立更新||
+|Method|Year|Mechanism|Update Type of Encode |Whether to stop gradient for one branch|Loss|Others|
+|:--|:--|:--|:--|:--|:--|:--|
+|MoCo[1]|2020|通过memory bank存储`encode_k`之前得到的embeddings（刚开始随机初始化$k=2^{16}$个常驻内存），而每批次计算时，同一张图像的两个增强视图v1,v2构成positive pairs，再从memory bank中拿出k个embeddings与v1 构成k个negative pairs，计算相似性，然后计算InfoNCE Loss；通过先进先出更新memory bank | 移动平均$\theta_k = m * \theta_k + (1 - m) * \theta_q$ |True|InfoNCE||
+|SimCLR[2]|2020|与MoCo不同，不需要memory bank暂存embeddings，而是将同一个batchsize的样本中，同一样本的两个增强视图作为positive pair，而与其他batchsize - 1个第一类增强视图以及batchsize个第二类增强视图构成`2 * batchsize - 1`个negative pair，计算相似性，然后计算InfoNCE|共享权重|True|InfoNCE|需要大的batchsize和好的增强组合|
+|BYOL[3]|2020|两个分支encoder分别为online和target，计算得到两个embedding，然后计算损失更新模型|移动平均$\xi = \tau * \xi + (1 - \tau) * \theta$|True|MSE||
+|Simsiam[4]|2021|与MoCo, SimCLR不同，不需要计算positive/negative pair，通过对称的余弦相似性计算的方式直接计算损失|共享权重，对称计算|True|Simsiam Cosine Similarity||
+|CMC[5]|2020|将MoCo的memory bank作用到了两/多个分支上，更新方式与MoCo类似，将两两Encoder进行loss计算，更新模型，这样便可以应用到多视图/多模态|独立更新，对称计算|True|InfoNCE|抛开计算loss的差异，可以将上述对称计算的非共享权重的SCL方法拓展到多视图/多模态任务中|
 
 ## Methods
 
@@ -375,6 +376,123 @@ def train(args, train_loader, model, criterion, optimizer, writer):
 
         loss_epoch += loss.item()
     return loss_epoch
+```
+
+### BYOL
+
+#### Pipeline
+
+![image](/imgs/BYOL_01.png)
+![image](/imgs/BYOL_02.png)
+
+#### Kernel Code
+
+```python
+import os
+import torch
+import torch.nn.functional as F
+import torchvision
+from torch.utils.data.dataloader import DataLoader
+from torch.utils.tensorboard import SummaryWriter
+
+from utils import _create_model_training_folder
+
+
+class BYOLTrainer:
+    def __init__(self, online_network, target_network, predictor, optimizer, device, **params):
+        self.online_network = online_network
+        self.target_network = target_network
+        self.optimizer = optimizer
+        self.device = device
+        self.predictor = predictor
+        self.max_epochs = params['max_epochs']
+        self.writer = SummaryWriter()
+        self.m = params['m']
+        self.batch_size = params['batch_size']
+        self.num_workers = params['num_workers']
+        self.checkpoint_interval = params['checkpoint_interval']
+        _create_model_training_folder(self.writer, files_to_same=["./config/config.yaml", "main.py", 'trainer.py'])
+
+    @torch.no_grad()
+    def _update_target_network_parameters(self):
+        """
+        Momentum update of the key encoder
+        """
+        for param_q, param_k in zip(self.online_network.parameters(), self.target_network.parameters()):
+            param_k.data = param_k.data * self.m + param_q.data * (1. - self.m)
+
+    @staticmethod
+    def regression_loss(x, y):
+        x = F.normalize(x, dim=1)
+        y = F.normalize(y, dim=1)
+        return 2 - 2 * (x * y).sum(dim=-1)
+
+    def initializes_target_network(self):
+        # init momentum network as encoder net
+        for param_q, param_k in zip(self.online_network.parameters(), self.target_network.parameters()):
+            param_k.data.copy_(param_q.data)  # initialize
+            param_k.requires_grad = False  # not update by gradient
+
+    def train(self, train_dataset):
+
+        train_loader = DataLoader(train_dataset, batch_size=self.batch_size,
+                                  num_workers=self.num_workers, drop_last=False, shuffle=True)
+
+        niter = 0
+        model_checkpoints_folder = os.path.join(self.writer.log_dir, 'checkpoints')
+
+        self.initializes_target_network()
+
+        for epoch_counter in range(self.max_epochs):
+
+            for (batch_view_1, batch_view_2), _ in train_loader:
+
+                batch_view_1 = batch_view_1.to(self.device)
+                batch_view_2 = batch_view_2.to(self.device)
+
+                if niter == 0:
+                    grid = torchvision.utils.make_grid(batch_view_1[:32])
+                    self.writer.add_image('views_1', grid, global_step=niter)
+
+                    grid = torchvision.utils.make_grid(batch_view_2[:32])
+                    self.writer.add_image('views_2', grid, global_step=niter)
+
+                loss = self.update(batch_view_1, batch_view_2)
+                self.writer.add_scalar('loss', loss, global_step=niter)
+
+                self.optimizer.zero_grad()
+                loss.backward()
+                self.optimizer.step()
+
+                self._update_target_network_parameters()  # update the key encoder
+                niter += 1
+
+            print("End of epoch {}".format(epoch_counter))
+
+        # save checkpoints
+        self.save_model(os.path.join(model_checkpoints_folder, 'model.pth'))
+
+    def update(self, batch_view_1, batch_view_2):
+        # compute query feature
+        predictions_from_view_1 = self.predictor(self.online_network(batch_view_1))
+        predictions_from_view_2 = self.predictor(self.online_network(batch_view_2))
+
+        # compute key features
+        with torch.no_grad():
+            targets_to_view_2 = self.target_network(batch_view_1)
+            targets_to_view_1 = self.target_network(batch_view_2)
+
+        loss = self.regression_loss(predictions_from_view_1, targets_to_view_1)
+        loss += self.regression_loss(predictions_from_view_2, targets_to_view_2)
+        return loss.mean()
+
+    def save_model(self, PATH):
+
+        torch.save({
+            'online_network_state_dict': self.online_network.state_dict(),
+            'target_network_state_dict': self.target_network.state_dict(),
+            'optimizer_state_dict': self.optimizer.state_dict(),
+        }, PATH)
 ```
 
 ### Simsiam
@@ -776,6 +894,8 @@ def train(epoch, train_loader, model, contrast, criterion_l, criterion_ab, optim
 
 [2]. Chen T, Kornblith S, Norouzi M, et al. A simple framework for contrastive learning of visual representations[C]//International conference on machine learning. PMLR, 2020: 1597-1607. [paper](https://arxiv.org/pdf/2002.05709.pdf) [code](https://github.com/Spijkervet/SimCLR)
 
-[3]. Chen X, He K. Exploring simple siamese representation learning[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2021: 15750-15758. [paper](https://arxiv.org/abs/2011.10566) [code](https://github.com/facebookresearch/simsiam)
+[3]. Grill J B, Strub F, Altché F, et al. Bootstrap your own latent: A new approach to self-supervised learning[J]. arXiv preprint arXiv:2006.07733, 2020. [paper](https://arxiv.org/abs/2006.07733) [code](https://github.com/sthalles/PyTorch-BYOL)
 
-[4]. Tian Y, Krishnan D, Isola P. Contrastive multiview coding[C]//Computer Vision–ECCV 2020: 16th European Conference, Glasgow, UK, August 23–28, 2020, Proceedings, Part XI 16. Springer International Publishing, 2020: 776-794. [paper](https://arxiv.org/abs/1906.05849) [code](https://github.com/HobbitLong/CMC)
+[4]. Chen X, He K. Exploring simple siamese representation learning[C]//Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition. 2021: 15750-15758. [paper](https://arxiv.org/abs/2011.10566) [code](https://github.com/facebookresearch/simsiam)
+
+[5]. Tian Y, Krishnan D, Isola P. Contrastive multiview coding[C]//Computer Vision–ECCV 2020: 16th European Conference, Glasgow, UK, August 23–28, 2020, Proceedings, Part XI 16. Springer International Publishing, 2020: 776-794. [paper](https://arxiv.org/abs/1906.05849) [code](https://github.com/HobbitLong/CMC)
