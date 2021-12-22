@@ -7,7 +7,7 @@
 |SimCLR[2]|2020|与MoCo不同，不需要memory bank暂存embeddings，而是将同一个batchsize的样本中，同一样本的两个增强视图作为positive pair，而与其他batchsize - 1个第一类增强视图以及batchsize个第二类增强视图构成`2 * batchsize - 1`个negative pair，计算相似性，然后计算InfoNCE|共享权重|True|InfoNCE|需要大的batchsize和好的增强组合|
 |BYOL[3]|2020|两个分支encoder分别为online和target，计算得到两个embedding，然后计算损失更新模型|移动平均$\xi = \tau * \xi + (1 - \tau) * \theta$|True|MSE||
 |Simsiam[4]|2021|与MoCo, SimCLR不同，不需要计算positive/negative pair，通过对称的余弦相似性计算的方式直接计算损失|共享权重，对称计算|True|Simsiam Cosine Similarity||
-|CMC[5]|2020|将MoCo的memory bank作用到了两/多个分支上，更新方式与MoCo类似，将两两Encoder进行loss计算，更新模型，这样便可以应用到多视图/多模态|独立更新，对称计算|True|InfoNCE|抛开计算loss的差异，可以将上述对称计算的非共享权重的SCL方法拓展到多视图/多模态任务中|
+|CMC[5]|2020|将MoCo的memory bank作用到了两/多个分支上，更新方式与MoCo类似，将两两Encoder进行loss计算，更新模型，这样便可以应用到多视图/多模态|独立更新，对称计算|True|NCE/InfoNCE|抛开计算loss的差异，可以将上述对称计算的非共享权重的SCL方法拓展到多视图/多模态任务中|
 
 ## Methods
 
