@@ -36,7 +36,7 @@ $$
 
 where, as above, $k$ is the number of negative pairs in sample set $S$ (one positive sample and k negative sample).
 
-Theoretically, we can think of the positive pairs as coming from a joint distribution over views $p(\bf{v_1},\bf{v_2})$, and the negative pairs from a product of marginals $p(\bf{v_1}) p(\bf{v_2})$
+Theoretically, we can think of the positive pairs as coming from a joint distribution over views $p(\bf{v_1},\bf{v_2})$, and the negative pairs from a product of marginals $ \mathcal{p}(\bf{v_1}) \mathcal{p}(\bf{v_2}) $
 
 ## Methods
 
