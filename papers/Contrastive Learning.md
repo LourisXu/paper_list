@@ -23,8 +23,9 @@
 ## InfoNCE Loss
 
 As shown in the paper[6], InfoNCE is defined as follows:
+
 $$
-\mathcal{L}_q = -\log{\frac{exp(q\cdot k_{+}/\tau)}{\sum_{i=0}^K exp(q\cdot k_i / \tau)}}
+\mathcal{L}_q = -\log{\frac{exp(q\cdot k\_{+}/\tau)}{\sum_{i=0}^K exp(q\cdot k\_i / \tau)}}
 $$
 
 The contrastive learning objective InfoNCE is maximize a lower bound on the mutual information (MI) between the two views $I(\bf{v_1};\bf{v_2})$ [5][6][7]. 
