@@ -4,6 +4,7 @@
 
 ## Motivation
 
+- Promoting unsupervised visual representation learning.
 - **Reduce the distance between representations of different augmented views of the same image (positive pairs) and increase the distance between representations of augmented veiws from different images (negative pairs).**
 - The ability to build up view-invariant representations.
 - **Seek representations of the world that are invariant to family of viewing conditions.**
