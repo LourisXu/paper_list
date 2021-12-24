@@ -14,29 +14,37 @@
 
 |Method|Year|Mechanism|Update Type of Encoder |Whether to stop gradient for one branch|Loss|Others|
 |:--|:--|:--|:--|:--|:--|:--|
-|MoCo[1]|2020|①通过memory bank存储`encode_k`之前得到的embeddings（刚开始随机初始化$k=2^{16}$个常驻内存），而每批次计算时，同一张图像的两个增强视图v1,v2构成positive pairs，再从memory bank中拿出k个embeddings与v1 构成k个negative pairs，计算相似性，然后计算InfoNCE Loss；<br> ②memory bank在这里用队列实现(k个embeddings常驻内存)，通过先进先出更新memory bank | 移动平均$\theta_k = m * \theta_k + (1 - m) * \theta_q$ |True|InfoNCE||
-|SimCLR[2]|2020|与MoCo不同，不需要memory bank暂存embeddings，而是将同一个batchsize的样本中，同一样本的两个增强视图作为positive pair，而与其他`batchsize-1`个第一类增强视图以及batchsize个第二类增强视图构成`2 * batchsize - 1`个negative pair，计算相似性，然后计算InfoNCE|共享权重|True|InfoNCE|需要大的batchsize和好的增强组合|
-|BYOL[3]|2020|两个分支encoder分别为online和target，计算得到两个embedding，然后计算损失更新模型|移动平均$\xi = \tau * \xi + (1 - \tau) * \theta$|True|MSE||
+|MoCo[1]|2020|①通过memory bank存储`encode_k`之前得到的embeddings（刚开始随机初始化$k=2^{16}$个常驻内存），而每批次计算时，同一张图像的两个增强视图v1,v2构成positive pairs，再从memory bank中拿出k个embeddings与v1 构成k个negative pairs，计算相似性，然后计算InfoNCE Loss；<br> ②memory bank在这里用队列实现(k个embeddings常驻内存)，通过先进先出更新memory bank | 移动平均<!-- $\theta_k = m * \theta_k + (1 - m) * \theta_q$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\La6VU0yLjp.svg"> |True|InfoNCE|由于memory bank，内存要求更大|
+|SimCLR[2]|2020|与MoCo不同，不需要memory bank暂存embeddings，而是将同一个batchsize的样本中，同一样本的两个增强视图作为positive pair，而与其他`batchsize-1`个第一类增强视图以及batchsize个第二类增强视图构成`2 * batchsize - 1`个negative pair，计算相似性，然后计算InfoNCE|共享权重|True|InfoNCE|①需要大的batchsize和好的增强组合<br> ②由于大的batchsize，所以显存要求更大|
+|BYOL[3]|2020|两个分支encoder分别为online和target，计算得到两个embedding，然后计算损失更新模型|移动平均<!-- $\xi = \tau * \xi + (1 - \tau) * \theta$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\oC2WXwIvd0.svg">|True|MSE||
 |Simsiam[4]|2021|与MoCo, SimCLR不同，不需要计算positive/negative pair，通过对称的余弦相似性计算的方式直接计算损失|共享权重，对称计算|True|Simsiam Cosine Similarity|①不需要positive/negative pairs; ②证明了塌缩解的存在以及stop gradient是对比学习有效避免塌缩的关键因素之一|
-|CMC[5]|2020|①将MoCo的memory bank作用到了两/多个分支上，更新方式与MoCo类似，将两两Encoder进行loss计算，更新模型，这样便可以应用到多视图/多模态;<br> ②与MoCo不同，这里memory bank保存len(dataset)个embeddings，从中随机选取k+1个进行相似性计算，而后在更新memory bank (因此如果dataset比较大，那么内存占用比MoCo大)|独立更新，对称计算|True|NCE/InfoNCE|抛开计算loss的差异，可以将上述对称计算的非共享权重的SCL方法拓展到多视图/多模态任务中|
+|CMC[5]|2020|①将MoCo的memory bank作用到了两/多个分支上，更新方式与MoCo类似，将两两Encoder进行loss计算，更新模型，这样便可以应用到多视图/多模态;<br> ②与MoCo不同，这里memory bank保存len(dataset)个embeddings，从中随机选取k+1个进行相似性计算，而后在更新memory bank (因此如果dataset比较大，那么内存占用比MoCo大)|独立更新，对称计算|True|NCE/InfoNCE|①抛开计算loss的差异，可以将上述对称计算的非共享权重的SCL方法拓展到多视图/多模态任务中；<br> ②多视图/多模态任务中，由于多个独立Encoder以及memory bank存在，显存和内存占用都更大|
 
 ## InfoNCE Loss
 
 As shown in the paper[6], InfoNCE is defined as follows:
 
-$$
-\mathcal{L}_q = -\log{\frac{exp(q\cdot k\_{+}/\tau)}{\sum\_{i=0}^K exp(q\cdot k\_i / \tau)}}
-$$
+<!-- $$
+\mathcal{L}_q = -\log{\frac{exp(q\cdot k_{+}/\tau)}{\sum_{i=0}^K exp(q\cdot k_i / \tau)}}
+$$ --> 
+
+<div align="center"><img style="background: white;" src="..\svg\ECdEex0qYF.svg"></div>
 
 The contrastive learning objective InfoNCE is maximize a lower bound on the mutual information (MI) between the two views $I(\bf{v_1};\bf{v_2})$ [5][6][7]. 
 
-$$
+<!-- $$
 I(z_i ; z_j) \geq \log{k} - \mathcal{L_{contrast}}
-$$
+$$ --> 
+
+<div align="center"><img style="background: white;" src="..\svg\1vXQauzPae.svg"></div>
 
 where, as above, $k$ is the number of negative pairs in sample set $S$ (one positive sample and k negative sample).
 
+**The dependency on $k$ also suggests that using more negative samples can lead to an improved representation.** As the $k$ increases, the approximation step becomes more accurate. Given any $k$, minimizing $\mathcal{L}_{k}(V_i, V_j)$ maximizes the lower bound on the mutual information $I(\bf{z_i};\bf{z_j})$. **We should note that increasing $k$ to infinity does not always lead to a higher lower bound. While $\log{k}$ increases with a larger k, the optimization problem becomes harder and $\mathcal{L}_{k}(V_i, V_j)$ also increases.**[5]
+
 Theoretically, we can think of the positive pairs as coming from a joint distribution over views $p(\bf{v_1},\bf{v_2})$, and the negative pairs from a product of marginals $ \mathcal{p}(\bf{v_1}) \mathcal{p}(\bf{v_2}) $
+
+
 
 ## Methods
 
