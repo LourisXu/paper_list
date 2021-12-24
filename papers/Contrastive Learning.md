@@ -30,6 +30,20 @@ $$ -->
 
 <div align="center"><img style="background: white;" src="..\svg\ECdEex0qYF.svg"></div>
 
+
+
+## Mutual Information
+
+Estimating the relationship between pairs of variables is a fundamental problem in science and engineering. Quantifying the degree of the relationship requires a metric that captures a notion of dependency [8].
+
+Hence, we focus on mutual information (MI), denoted $I(X;Y)$, which is a reparameterization-invariant measure of dependency[8].
+
+<!-- $$
+I(X;Y) = \mathbb{E}_{p(x,y)}[\log{\frac{p(x|y)}{p(x)}}] = \mathbb{E}_{p(x,y)}[\log{\frac{p(y|x)}{p(y)}}]
+$$ --> 
+
+<div align="center"><img style="background: white;" src="..\svg\syUjkexEeR.svg"></div>
+
 The contrastive learning objective InfoNCE is maximize a lower bound on the mutual information (MI) between the two views $I(\bf{v_1};\bf{v_2})$ [5][6][7]. 
 
 <!-- $$
@@ -44,6 +58,12 @@ where, as above, $k$ is the number of negative pairs in sample set $S$ (one posi
 
 Theoretically, we can think of the positive pairs as coming from a joint distribution over views $p(\bf{v_1},\bf{v_2})$, and the negative pairs from a product of marginals $\mathcal{p}(\bf{v_1}) \mathcal{p}(\bf{v_2})$
 
+
+## Factors affecting contrastive learning
+
+- `Stop gradient`: One branch stops gradient calculation. It is effective to avoid collapse solution.[4]
+- `k`: $k$ is the number of negative pairs in sample set $S$ (one positive sample and k negative sample). [5]
+- `MI`: Mutual Information. We should reduce the mutual information (MI) between views while keeping task-relevant information intact [7].
 
 
 ## Methods
@@ -939,4 +959,6 @@ def train(epoch, train_loader, model, contrast, criterion_l, criterion_ab, optim
 
 [6]. Oord A, Li Y, Vinyals O. Representation learning with contrastive predictive coding[J]. arXiv preprint arXiv:1807.03748, 2018. [paper](https://arxiv.org/abs/1807.03748)
 
-[7]. Tian Y, Sun C, Poole B, et al. What makes for good views for contrastive learning?[J]. arXiv preprint arXiv:2005.10243, 2020. [paper](https://arxiv.org/abs/2005.10243) [code]()
+[7]. Tian Y, Sun C, Poole B, et al. What makes for good views for contrastive learning?[J]. arXiv preprint arXiv:2005.10243, 2020. [paper](https://arxiv.org/abs/2005.10243) [code](https://github.com/HobbitLong/PyContrast)
+
+[8]. Poole B, Ozair S, Van Den Oord A, et al. On variational bounds of mutual information[C]//International Conference on Machine Learning. PMLR, 2019: 5171-5180. [paper](http://proceedings.mlr.press/v97/poole19a.html)
