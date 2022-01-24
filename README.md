@@ -1,3 +1,6 @@
+[toc]
+---
+
 > # 科研相关
 
 ### 语言学习(先修)
@@ -55,6 +58,40 @@ $$\theta$$
 ### 详细资料参考
 
 [Deep Learning Tutorial](https://github.com/Mikoto10032/DeepLearning)
+
+### 信号处理
+
+全部以python为语言的实例，matlab我不会。
+
+#### librosa
+
+[librosa](http://librosa.org/doc/latest/install.html)为以python语言为基础的信号处理库，包括常用的MFCCs、Mel滤波器组等，简要Example详见[链接](https://louris.cn/2020/03/21/librosaaudio-processing-library-learning.html/)
+
+[github](https://github.com/search?q=librosa)
+
+服务器安装可能需要安装（需要root权限）:
+```
+sudo apt-get install libsndfile
+```
+
+#### PyWavelet
+
+[PyWavelet](https://pywavelets.readthedocs.io/en/latest/index.html)为以python语言为基础的小波变换处理库，[github](https://github.com/PyWavelets/pywt)。
+
+**[小波变换](https://zhuanlan.zhihu.com/p/22450818)**
+
+**[小波去噪](https://zhuanlan.zhihu.com/p/157540476?utm_source=wechat_session)**
+
+#### nlpaug
+
+[nlpaug](https://nlpaug.readthedocs.io/en/latest/overview/overview.html)为文本、语音增强库，包括基本的语音增强，[Example](https://github.com/makcedward/nlpaug/blob/master/example/audio_augmenter.ipynb)。
+
+**[VTLP语音增强](https://louris.cn/2020/08/28/audio-augmentationvtlp.html/)**
+
+**理论书籍**
+[语音信号处理](https://item.jd.com/11950362.html#crumb-wrap)
+[语音信号处理实验教程 (附Matlab程序)](https://item.jd.com/11893369.html#crumb-wrap)
+[对应python版本](https://github.com/busyyang/python_sound_open)
 
 ---
 
