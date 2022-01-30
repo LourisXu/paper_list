@@ -82,6 +82,10 @@ sudo apt-get install libsndfile
 
 **[小波去噪](https://zhuanlan.zhihu.com/p/157540476?utm_source=wechat_session)**
 
+#### Scipy
+
+[Scipy 信号处理](https://scipy-cookbook.readthedocs.io/items/ApplyFIRFilter.html)
+
 #### nlpaug
 
 [nlpaug](https://nlpaug.readthedocs.io/en/latest/overview/overview.html)为文本、语音增强库，包括基本的语音增强，[Example](https://github.com/makcedward/nlpaug/blob/master/example/audio_augmenter.ipynb)。
