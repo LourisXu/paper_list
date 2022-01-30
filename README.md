@@ -84,7 +84,7 @@ sudo apt-get install libsndfile
 
 #### Scipy
 
-[Scipy 信号处理](https://scipy-cookbook.readthedocs.io/items/ApplyFIRFilter.html)
+[Scipy 信号处理](https://scipy-cookbook.readthedocs.io/items/ApplyFIRFilter.html)，包括常见巴特沃斯高通滤波器。
 
 #### nlpaug
 
