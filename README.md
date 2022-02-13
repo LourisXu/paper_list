@@ -18,13 +18,62 @@
 [菜鸟教程](https://www.runoob.com/pandas/pandas-tutorial.html)
 [官网教程](https://pandas.pydata.org/docs/getting_started/intro_tutorials/index.html)
 
+其他统计分析图表库[Matplotlib](https://matplotlib.org/)、[Seaborn](http://seaborn.pydata.org/)等自行百度。
+
+---
+
+### 机器学习
+
+[Sklearn中文教程]()：比较详细，有各种Example，上手快，直接调库即可，要用的时候看对应章节就行。
+
 ### 深度学习（必修）
 
-**pytorch**
+**pytorch框架**
 
-**强烈建议除了NLP和RNN的内容，其他全部跟着敲一遍，上机器跑一遍，自己事情自己干，不然项目结构看不懂容易抓瞎，不要想着别人给你写代码，然后你再那里玩╰_╯╬(｀⌒´メ)(｀ι_´メ)(▼へ▼メ)**
+**强烈建议跟着其那面CNN、RNN、分类、分割等敲一遍，上机器跑一遍，其他GAN、NLP等领域之后根据自己研究方向跟进，自己事情自己干，不然项目结构看不懂容易抓瞎，不要想着别人给你写代码，然后你再那里玩╰_╯╬(｀⌒´メ)(｀ι_´メ)(▼へ▼メ)**
 
-[动手学深度学习](https://tangshusen.me/Dive-into-DL-PyTorch/#/)
+[动手学深度学习](http://zh.d2l.ai/)：对应深度学习框架[MXNet](https://zh-v2.d2l.ai/d2l-zh.pdf)和[Pytorch](https://zh-v2.d2l.ai/d2l-zh-pytorch.pdf)的实现，建议直接学Pytorch！
+
+框架选择：
+- Pytorch科研界广泛使用的框架，轮子多，论文复现快和改进Idea快(推荐)；
+- MXNet在显存计算优化上更好，速度快占显存小，但是没有推广起来，API与Pytorch类似；
+- Tensorflow早期版本对新手不友好，Keras对其封装后会好很多，工业界Tensorflow还是主流吧。
+
+**理论书籍**
+
+[《统计学习方法》](https://item.jd.com/12522197.html) —— 讲得通透，走科研或算法岗的必修。
+[《深度学习》](https://item.jd.com/12128543.html) —— 别名花书，偏理论概念，先学上面动手学深度学习更有用！
+[《机器学习》](https://item.jd.com/12762673.html) —— 别名西瓜书，机器学习基础概念以及理论，走科研或算法岗必修。
+
+**注：先看前面Sklearn、Pytorch有代码的Example，搭环境跑Example上手更快，理论后面看个人选择再深入。—— Talk is cheap. Show me the code.**
+
+---
+
+### API查阅
+
+不管是科研还是工作，在学习了书籍的代码后，常常需要翻阅对应代码库的API(Application Programming Interface)，用以查询各个函数、类等具体定义和实现，学会并掌握API的使用是准确应用的关键。
+
+以Pytorch为例，[Pytorch官网](https://pytorch.org/)首页有基本[安装入口](https://pytorch.org/get-started/locally/)以及[Tutorial](https://pytorch.org/tutorials/)——简单的入门Example，我们关注于[Docs](https://pytorch.org/docs/stable/index.html)，它包括pytorch、torchaudio、torchvision等子模块的API，以[`torch.nn`的API](https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html#torch.nn.Conv2d)为例，包含了各个参数的说明以及Examples，学习这些Example，最好的方法就是构造输入，根据API测试其输出是否符合预期。
+
+```python
+import torch
+from torch import nn
+
+x = torch.randn(10, 3, 256, 256) # 生成shape为(10, 3, 256, 256)的张量，模拟批量为10，通道为3、高宽为256像素的图片
+layer = nn.Conv2d(in_channels=3, out_channels=4, stride=2)
+y = layer(x)
+print(y.shape)
+```
+
+同时可以查看其API的源码，右上角的[`Source`](https://pytorch.org/docs/stable/_modules/torch/nn/modules/conv.html#Conv2d)，查看具体实现，对于有些情况需要自己查看实现并做修改。
+
+最简单的例子，就是`DataLoader`类的批量随机采样的实现，这是在加载数据常用的类，基本不需要重写，但是有时候需要理解其工作原理才能使得代码执行符合预期，最常见的是自定义`Dataset`类，重写其`__getitem__()`和`__len__()`方法——这在前面《动手学深度学习》后面输入自定义数据集而不是内置数据集时有介绍，不再介绍——而DataLoader内部会根据参数选择合适的`Sampler`，包括`RandomSampler`和`SequentialSampler`，具体实现应用了python的生成器、迭代器等，读者自行查阅。
+
+**这节只是蜻蜓点水说明，目的在于强调API查阅的重要性，望读者不要对英文API说明畏惧**
+
+**不贴图了，自己看链接。**
+
+---
 
 ### Latex/Markdown公式
 
@@ -58,6 +107,8 @@ $$\theta$$
 ### 详细资料参考
 
 [Deep Learning Tutorial](https://github.com/Mikoto10032/DeepLearning)
+
+---
 
 ### 信号处理
 
@@ -101,6 +152,8 @@ sudo apt-get install libsndfile
 
 为了在浏览器中能正确显示markdown文件的公式，我们可以采取如下方式
 在chrome的扩展程序中，打开chrome网上应用店，然后搜索MathJax Plugin for Github，下载该插件，并且启用，就可以让上述公式正常显示。
+
+---
 
 ### 环境配置
 
@@ -267,6 +320,7 @@ git config --global --unset https.proxy
 git config --global --list
 ```
 
+---
 
 ### 服务器使用若干问题
 
@@ -289,4 +343,14 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '0, 1, 4'
 ```
 通过os指定GPU，pytorch的指定时在该基础上根据后面的`0,1,4`确定相对顺序的GPU。
 
+
+---
+
+> # 写在最后
+
+本文只是一点点使用总结，每个部分都有很多可以展开详细的内容，需要读者自己根据需要整理，网上也有很多内容，各自努力吧，少年！
+
+最后送上个人比较喜欢的几句话：
+- 选择比努力更重要，但是不努力连选择的权利都没有；
+- 请给我一点运气，剩下的我自己努力；
 
