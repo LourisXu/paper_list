@@ -105,6 +105,12 @@ $$\theta$$
 
 [Latex公式符号](https://math.meta.stackexchange.com/questions/5020/mathjax-basic-tutorial-and-quick-reference)
 
+---
+
+为了在浏览器中能正确显示markdown文件的公式，我们可以采取如下方式
+在chrome的扩展程序中，打开chrome网上应用店，然后搜索MathJax Plugin for Github，下载该插件，并且启用，就可以让上述公式正常显示。
+
+---
 
 ### 详细资料参考
 
@@ -152,11 +158,6 @@ sudo apt-get install libsndfile
 [语音信号处理实验教程 (附Matlab程序)](https://item.jd.com/11893369.html#crumb-wrap)
 
 [对应python版本](https://github.com/busyyang/python_sound_open)
-
----
-
-为了在浏览器中能正确显示markdown文件的公式，我们可以采取如下方式
-在chrome的扩展程序中，打开chrome网上应用店，然后搜索MathJax Plugin for Github，下载该插件，并且启用，就可以让上述公式正常显示。
 
 ---
 
