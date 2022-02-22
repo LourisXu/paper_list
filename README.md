@@ -30,7 +30,7 @@
 
 **pytorch框架**
 
-**强烈建议跟着其那面CNN、RNN、分类、分割等敲一遍，上机器跑一遍，其他GAN、NLP等领域之后根据自己研究方向跟进，自己事情自己干，不然项目结构看不懂容易抓瞎，不要想着别人给你写代码，然后你再那里玩╰_╯╬(｀⌒´メ)(｀ι_´メ)(▼へ▼メ)**
+**强烈建议跟着其那面CNN、RNN、分类、分割等敲一遍，上机器跑一遍，其他GAN、NLP等领域之后根据自己研究方向跟进，不然项目结构看不懂容易抓瞎**
 
 [动手学深度学习](http://zh.d2l.ai/)：对应深度学习框架[MXNet](https://zh-v2.d2l.ai/d2l-zh.pdf)和[Pytorch](https://zh-v2.d2l.ai/d2l-zh-pytorch.pdf)的实现，建议直接学Pytorch！
 
@@ -42,7 +42,9 @@
 **理论书籍**
 
 [《统计学习方法》](https://item.jd.com/12522197.html) —— 讲得通透，走科研或算法岗的必修。
+
 [《深度学习》](https://item.jd.com/12128543.html) —— 别名花书，偏理论概念，先学上面动手学深度学习更有用！
+
 [《机器学习》](https://item.jd.com/12762673.html) —— 别名西瓜书，机器学习基础概念以及理论，走科研或算法岗必修。
 
 **注：先看前面Sklearn、Pytorch有代码的Example，搭环境跑Example上手更快，理论后面看个人选择再深入。—— Talk is cheap. Show me the code.**
@@ -144,8 +146,11 @@ sudo apt-get install libsndfile
 **[VTLP语音增强](https://louris.cn/2020/08/28/audio-augmentationvtlp.html/)**
 
 **理论书籍**
+
 [语音信号处理](https://item.jd.com/11950362.html#crumb-wrap)
+
 [语音信号处理实验教程 (附Matlab程序)](https://item.jd.com/11893369.html#crumb-wrap)
+
 [对应python版本](https://github.com/busyyang/python_sound_open)
 
 ---
@@ -154,6 +159,44 @@ sudo apt-get install libsndfile
 在chrome的扩展程序中，打开chrome网上应用店，然后搜索MathJax Plugin for Github，下载该插件，并且启用，就可以让上述公式正常显示。
 
 ---
+
+### 顶会论文索引
+
+[AAAI各年会议](https://aaai.org/Conferences/conferences.php)，找对当年的会议官网的对应Accepted Paper，例如[AAAI2021会议录用](https://aaai.org/Conferences/AAAI-21/wp-content/uploads/2020/12/AAAI-21_Accepted-Paper-List.Main_.Technical.Track_.pdf)，然后谷歌学术搜对应的文章。
+
+[CVPR2021](https://openaccess.thecvf.com/CVPR2021?day=all)，对应其他年份改下地址栏。
+
+[会议汇总](https://proceedings.mlr.press/)
+
+[NLP会议汇总](https://aclanthology.org/)
+
+[ACL2021](https://aclanthology.org/events/acl-2021/#2021-acl-long)
+
+其他自己找。
+
+### 中南大学电子图书馆食用方法
+
+[期刊检索](https://lib.csu.edu.cn/)
+
+[SCI期刊检索](https://mjl.clarivate.com/home?PC=K)
+
+[论文数据库](https://lib.csu.edu.cn/)：以[IEEE](http://libdb.csu.edu.cn/resdetail?rid=IEEE)为例，信息门户统一身份认证后就可以免费下载该数据库的论文。具体自己查看
+
+### 中南大学硕/博士论文latex模板
+
+[latex模板](https://github.com/CSUcse/CSUthesis)
+
+按照其说明安装TexStudio编辑器和环境TexLive。
+
+其他编辑器推荐[VSCode](https://code.visualstudio.com/)
+
+VSCode常用插件:
+- Markdown Preview Enhanced： Ctrl + Shift + V
+- Math to Image：支持右键Markdown的公式转svg
+
+### VPN设置
+
+由于需要访问外网资源，而国内有墙，所以百度搜[Ghelper](http://googlehelper.net/)安装插件。
 
 ### 环境配置
 
@@ -216,8 +259,11 @@ pip install pandas #看情况使用pip，有些依赖conda没有
 
 外网资源需要配置镜像
 以下配置清华源，其他参见官网链接：
+
 [清华源](https://mirrors.tuna.tsinghua.edu.cn/)
+
 [腾讯云镜像](https://mirrors.cloud.tencent.com/)
+
 [阿里云镜像](https://developer.aliyun.com/mirror/)
 
 ##### pip镜像
