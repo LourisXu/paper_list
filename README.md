@@ -55,7 +55,7 @@
 
 ### API查阅
 
-不管是科研还是工作，在学习了书籍的代码后，常常需要翻阅对应代码库的API(Application Programming Interface)，用以查询各个函数、类等具体定义和实现，学会并掌握API的使用是准确应用的关键。
+不管是科研还是工作，在学习了书籍的代码后，常常需要翻阅**官网内容**及其对应**代码库的API**(Application Programming Interface)，用以查询各个函数、类等具体定义和实现，学会并掌握API的使用是准确应用的关键。
 
 以Pytorch为例，[Pytorch官网](https://pytorch.org/)首页有基本[安装入口](https://pytorch.org/get-started/locally/)以及[Tutorial](https://pytorch.org/tutorials/)——简单的入门Example，我们关注于[Docs](https://pytorch.org/docs/stable/index.html)，它包括pytorch、torchaudio、torchvision等子模块的API，以[`torch.nn`的API](https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html#torch.nn.Conv2d)为例，包含了各个参数的说明以及Examples，学习这些Example，最好的方法就是构造输入，根据API测试其输出是否符合预期。
 
