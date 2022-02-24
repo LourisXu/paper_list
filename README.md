@@ -24,7 +24,9 @@
 
 ### 机器学习
 
-[Sklearn中文教程]()：比较详细，有各种Example，上手快，直接调库即可，要用的时候看对应章节就行。
+**Sklearn中文教程**：[地址1](https://sklearn.apachecn.org/#/)和[地址2](https://www.scikitlearn.com.cn/)：比较详细，有各种Example，上手快，直接调库即可，要用的时候看对应章节就行。
+
+[Sklearn官网](https://scikit-learn.org/stable/)：有些演示例子以及右上角API查询。
 
 ### 深度学习（必修）
 
