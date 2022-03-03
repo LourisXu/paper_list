@@ -83,6 +83,10 @@ $$ -->
 
 where $u(p)$ is the uncertainty of a prediction $p$, and $\kappa_p$ and $\kappa_n$ are the uncertainty thresholds. This additional term, involving $u(p)$, ensures the network prediction is sufficiently certain to be selected.
 
+- 注意：$u(p)$在代码中是通过方差表示的。
+
+### Algorithm Pipeline
+
 ![image](/imgs/defense_pseudo_labeling_algorithm.png)
 
 训练过程：
@@ -616,3 +620,16 @@ def pseudo_labeling(args, data_loader, model, itr):
  
     return losses.avg, top1.avg, pseudo_labeling_acc, len(pseudo_idx), nl_accuracy_final, len(nl_accuracy), len(pseudo_nl_mask), pseudo_label_dict
 ```
+
+## Experiments
+
+### 1. Setup
+
+#### **•  Environment**
+
+|     Code | https://github.com/nayeemrizve/ups |
+| -------: | -------------------------------------- |
+|  **Env** | Ubuntu 16.04.5 LTS, Python 3.7, PyTorch 1.6.0, and cudatoolkit 10.0.130: `conda activate base`|
+|   **IP** | 122.207.82.54:14000                   |
+| **Path** | /homec/xulei/CV-Related/ups/    |
+|  **GPU** | GeForce RTX 2080Ti, 10G |
