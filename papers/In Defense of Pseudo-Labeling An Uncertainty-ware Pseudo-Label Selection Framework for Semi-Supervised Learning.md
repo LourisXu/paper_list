@@ -1,14 +1,14 @@
 ## Abstract
 |             Title | In Defense of Pseudo-Labeling An Uncertainty-ware Pseudo-Label Selection Framework for Semi-Supervised Learning |
 | ----------------: | :----------------------------------------------------------- |
-|       **Problem** | This work is in defense of pseudo-labeling: we demonstratethat pseudo-labeling based methods can perform on par with consistency regularization methods.|
-|    **Motivation** | 1.The recent research in semi-supervised learning (SSL) is mostly dominated by consistency regularization based methods which achieve strong performance. However, they heavily rely on domain-specific data augmentations, which are not easy to generate for all data modalities. <br> 2. Conventional pseudo-labeling based methods achieve poor results because poor network calibration produces incorrectly pseudo-labeled samples, leading to noisy training and poor generalization.|
+|       **Problem** | This work is **in defense of pseudo-labeling**: we demonstratethat pseudo-labeling based methods can perform on par with consistency regularization methods.|
+|    **Motivation** | 1.The recent research in semi-supervised learning (SSL) is **mostly dominated by consistency regularization based methods** which achieve strong performance. However, they **heavily rely on domain-specific data augmentations**, which are not easy to generate for all data modalities. <br> 2. Conventional pseudo-labeling based methods achieve **poor results because poor network calibration produces incorrectly pseudo-labeled samples**, leading to noisy training and poor generalization.|
 |       **Results** | An uncertainty-aware pseudo-label selection (UPS) framework which improves pseudo labeling accuracy by drastically reducing the amount of noise encountered in the training process. Furthermore, UPS generalizes the pseudo-labeling process, allowing for the creation of negative pseudo-labels; these negative pseudo-labels can be used for multi-label classification as well as negative learning to improve the single-label classification|
 |    **Conclusion** | 1. UPS, an uncertainty-aware pseudo-label selection framework that maintains the simplicity, generality, and ease of implementation of pseudo-labeling, while performing on par with consistency regularization based SSL methods. <br> 2. Due to poor neural network calibration, conventional pseudo-labeling methods trained on a large number of incorrect pseudo-labels result in noisy training; our pseudo-label selection process utilizes prediction uncertainty to reduce this noise. |
-| **Contributions** | 1. UPS, a novel uncertainty-aware pseudo-label selection framework which greatly reduces the effect of poor network calibration on the pseudo-labeling process; <br> 2. While prior SSL methods focus on single-label classification, we generalize pseudo-labeling to create negative labels, allowing for negative learning and multi-label classification; <br> 3. Our comprehensive experimentation shows that the proposed method achieves strong performance on commonly used benchmark datasets CIFAR-10 and CIFAR-100. <br> 4. In addition, we highlight our method’s flexibility by outperforming previous state-of-the-art approaches on the video dataset, UCF-101, and the multi-label Pascal VOC dataset. |
+| **Contributions** | 1. **UPS, a novel uncertainty-aware pseudo-label selection framework** which greatly reduces the effect of poor network calibration on the pseudo-labeling process; <br> 2. While prior SSL methods focus on single-label classification, we generalize pseudo-labeling to create negative labels, allowing for negative learning and multi-label classification; <br> 3. Our comprehensive experimentation shows that the proposed method achieves strong performance on commonly used benchmark datasets CIFAR-10 and CIFAR-100. <br> 4. In addition, we highlight our method’s flexibility by outperforming previous state-of-the-art approaches on the video dataset, UCF-101, and the multi-label Pascal VOC dataset. |
 |           **URL** | [ICLR 2021](https://arxiv.org/abs/2101.06329) |
 |     **My Rating** | ★★★★☆                                                    |
-|      **Comments** |                                                              |
+|      **Comments** |1. 代码逻辑清晰，SSL的主流算法之一的伪标签生成算法中值得借鉴的代码范本，其他伪标签生成算法训练逻辑应该差不多，区别可能是在伪标签生成方式不同，详见代码；<br> 2. 文章主要在现有的伪标签生成算法基础上提出了不确定感知(uncertainty-aware)的伪标签选择，引入了negative pseudo-labeling learning，将置信度低的预测类（即不可能是该类别）加入训练，通过计算negative cross-entropy loss实现；|
 
 
 ### 1. Overview
@@ -199,6 +199,7 @@ where $u(p)$ is the uncertainty of a prediction $p$, and $\kappa_p$ and $\kappa_
             elif epoch == (args.epochs-1):
                 test_loss, test_acc = test(args, test_loader, test_model)
 
+            # log记录
             writer.add_scalar('train/1.train_loss', train_loss, (itr*args.epochs)+epoch)
             writer.add_scalar('test/1.test_acc', test_acc, (itr*args.epochs)+epoch)
             writer.add_scalar('test/2.test_loss', test_loss, (itr*args.epochs)+epoch)
@@ -206,6 +207,7 @@ where $u(p)$ is the uncertainty of a prediction $p$, and $\kappa_p$ and $\kappa_
             is_best = test_acc > best_acc
             best_acc = max(test_acc, best_acc)
             model_to_save = model.module if hasattr(model, "module") else model
+            # 保存模型
             save_checkpoint({
                 'epoch': epoch + 1,
                 'state_dict': model_to_save.state_dict(),
@@ -418,12 +420,14 @@ def train_regular(args, lbl_loader, nl_loader, model, optimizer, scheduler, epoc
         loss.backward()
         losses.update(loss.item())
 
+        # 更新优化器、学习率计划参数、模型参数
         optimizer.step()
         scheduler.step()
         model.zero_grad()
 
         batch_time.update(time.time() - end)
         end = time.time()
+        # tpdm的进度条设置
         if not args.no_progress:
             p_bar.set_description("Train PL-Iter: {itr}/{itrs:4}. Epoch: {epoch}/{epochs:4}. BT-Iter: {batch:4}/{iter:4}. LR: {lr:.6f}. Data: {data:.3f}s. Batch: {bt:.3f}s. Loss: {loss:.4f}.".format(
                 itr=itr + 1,
@@ -522,14 +526,17 @@ def pseudo_labeling(args, data_loader, model, itr):
             else:
                 selected_idx = max_value>=args.tau_p
 
+            # 根据选择索引选择伪标签数据
             pseudo_maxstd.extend(max_std.squeeze(1)[selected_idx].cpu().numpy().tolist())
             pseudo_target.extend(max_idx[selected_idx].cpu().numpy().tolist())
             pseudo_idx.extend(indexs[selected_idx].numpy().tolist())
             gt_target.extend(targets[selected_idx].cpu().numpy().tolist())
-
+            
+            # 计算损失、准确度
             loss = F.cross_entropy(outputs, targets.to(dtype=torch.long))
             prec1, prec5 = accuracy(outputs[selected_idx], targets[selected_idx], topk=(1, 5))
 
+            # 更新损失和指标
             losses.update(loss.item(), inputs.shape[0])
             top1.update(prec1.item(), inputs.shape[0])
             top5.update(prec5.item(), inputs.shape[0])
