@@ -11,9 +11,9 @@
 |      **Comments** |1. 代码逻辑清晰，SSL的主流算法之一的伪标签生成算法中值得借鉴的代码范本，其他伪标签生成算法训练逻辑应该差不多，区别可能是在伪标签生成方式不同，详见代码；<br> 2. 文章主要在现有的伪标签生成算法基础上提出了不确定感知(uncertainty-aware)的伪标签选择，引入了negative pseudo-labeling learning，将置信度低的预测类（即不可能是该类别）加入训练，通过计算negative cross-entropy loss实现；|
 
 
-### 1. Overview
+### Overview
 
-#### Pseudo-labeling for semi-supervised learning
+#### (1) Pseudo-labeling for semi-supervised learning
 
 |Term|Notation|Description|
 |:--:|:--:|:--|
@@ -36,7 +36,7 @@ $$ -->
 
 where <!-- $\gamma \in (0, 1]$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\qddBGezcPo.svg">. Note that conventional single-label pseudo-labeling can be derived from the above equation when <!-- $\gamma = \mathop{\max}\limits_{c} p^{(i)}_c$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\QNW0rFpK6v.svg">.
 
-#### Pseudo-label Selection
+#### (2) Pseudo-label Selection
 
 - Although pseudo-labeling is versatile and modality-agnostic, it achieves relatively poor performance when compared to recent SSL methods. 
 - This is due to the large number of incorrectly pseudo-labeled samples used during training. 
@@ -70,7 +70,7 @@ $$ -->
 
 where <!-- $s^{(i)} = \sum_c g^{(i)}_c$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\OPchPZiCCH.svg"> is the number of selected pseudo-labels for sample $i$, <!-- $\hat{y}^{(i)} = f_{\theta}(x^{(i)})$ --> <img style="transform: translateY(0.1em); background: white;" src="..\svg\q6B1zDs2jq.svg"> is the probability output for the model $f_{\theta}$.
 
-#### Uncertainty-aware Pseudo-label Selection
+#### (3) Uncertainty-aware Pseudo-label Selection
 
 - Although confidence-based selection reduces pseudo-label error rates, the poor calibration of neural networks renders this solution insufficient - in poorly calibrated networks incorrect predictions can have high confidence scores.
 - Propose an uncertainty-aware pseudo-label selection process: by utilizing both the confidence and uncertainty of a network prediction, a more accurate subset of pseudo-labels are used in training.
@@ -102,7 +102,7 @@ where $u(p)$ is the uncertainty of a prediction $p$, and $\kappa_p$ and $\kappa_
 
 ### Kernel Code
 
-#### Training Pipeline
+#### (1) Training Pipeline
 
 `train-cifar.py`: 算法主要训练过程
 ```python
@@ -230,7 +230,7 @@ where $u(p)$ is the uncertainty of a prediction $p$, and $\kappa_p$ and $\kappa_
         pl_loss, pl_acc, pl_acc_pos, total_sel_pos, pl_acc_neg, total_sel_neg, unique_sel_neg, pseudo_label_dict = pseudo_labeling(args, unlbl_loader, model, itr)
 ```
 
-#### DataLoader
+#### (2) DataLoader
 
 `cifar.py`：数据加载类
 ```python
@@ -371,7 +371,7 @@ class CIFAR100SSL(datasets.CIFAR100):
         return img, target, self.indexs[index], self.nl_mask[index]
 ```
 
-#### Training Function
+#### (3) Training Function
 
 `train_util.py`: 训练函数
 - `train_initial`: 第一次迭代用到的训练函数，标准的分类训练函数
@@ -450,7 +450,7 @@ def train_regular(args, lbl_loader, nl_loader, model, optimizer, scheduler, epoc
     return losses.avg
 ```
 
-#### Pseudo-labeling Algorithm
+#### (4) Pseudo-labeling Algorithm
 
 `pseudo_labeling_util.py`：伪标签生成函数
 ```python
