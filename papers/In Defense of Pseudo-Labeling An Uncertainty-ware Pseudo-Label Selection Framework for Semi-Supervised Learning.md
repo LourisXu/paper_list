@@ -633,3 +633,44 @@ def pseudo_labeling(args, data_loader, model, itr):
 |   **IP** | 122.207.82.54:14000                   |
 | **Path** | /homec/xulei/CV-Related/ups/    |
 |  **GPU** | GeForce RTX 2080Ti, 10G |
+
+#### **•  Datasets**
+
+| Datasets | Description | Url  |
+| ------- |:----------- |:---- |
+|CIFAR-10|The CIFAR-10 dataset consists of 60000 32x32 colour images in 10 classes, with 6000 images per class. There are 50000 training images and 10000 test images.The dataset is divided into five training batches and one test batch, each with 10000 images. The test batch contains exactly 1000 randomly-selected images from each class. The training batches contain the remaining images in random order, but some training batches may contain more images from one class than another. Between them, the training batches contain exactly 5000 images from each class.|https://www.cs.toronto.edu/~kriz/cifar.html|
+
+#### •  Hyper-Parameters
+
+|         Parameter | Value     |
+| ----------------: | --------- |
+| number of labeled samples | 4000 |
+| architecture | cnn13 |
+| number of pseudo-labeling iterations | 20 |
+| number of epochs | 1024 |
+| batch size | 128 |
+| learning rate | 0.03 |
+| value of tau_p | 0.7 |
+| value of tau_n | 0.05 |
+| value of kappa_p | 0.05 |
+| value of kappa_n | 0.005 |
+
+### 2. Results
+
+| Dataset |  Metric  | value |
+| :-----: | :------: | :----: |
+| CIFAR10 | top-1 acc | 93.33 |
+| | top-5 acc | 99.85 |
+| | Pseudo-Labeling Accuracy (positive) | 96.38 |
+| | Pseudo-Labeling Accuracy (negative) | 99.73|
+
+## BibTex
+
+```
+@article{rizve2021defense,
+  title={In defense of pseudo-labeling: An uncertainty-aware pseudo-label selection framework for semi-supervised learning},
+  author={Rizve, Mamshad Nayeem and Duarte, Kevin and Rawat, Yogesh S and Shah, Mubarak},
+  journal={arXiv preprint arXiv:2101.06329},
+  year={2021}
+}
+```
