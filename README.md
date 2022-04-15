@@ -392,6 +392,9 @@ os.environ['CUDA_VISIBLE_DEVICES'] = '0, 1, 4'
 ```
 通过os指定GPU，pytorch的指定时在该基础上根据后面的`0,1,4`确定相对顺序的GPU。
 
+4. 异步并行加载数据
+
+Pytorch等深度学习框架的DataLoader加载数据，有一个参数`num_workers`，表示用于加载数据的子进程数，一般window上跑程序`num_workers=0`，linux上`num_workres=4`即可，主要看服务器的物理CPU核数，一般不要超过物理核数，考虑到其他用户使用服务器，4够用了，太大反而很慢！
 
 ---
 
