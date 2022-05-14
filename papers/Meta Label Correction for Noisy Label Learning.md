@@ -143,12 +143,14 @@ def step_hmlc_K(main_net, main_opt, hard_loss_f,
 
     # back prop on alphas
     meta_opt.zero_grad()
-    proxy_g.backward()  # 前面的f_param_grads为论文文公式(6)的H_{alpha, w}，即L_D'{alpha, w}关于w的一阶偏导，现在关于alpha求偏导，得到L_D'{alpha, w}的二阶导
+    # 前面的f_param_grads为论文文公式(6)的H_{alpha, w}，即L_D'{alpha, w}关于w的一阶偏导，现在关于alpha求偏导，得到L_D'{alpha, w}的二阶导
+    # 计算操作后，meta_net有了公式(6)的后一项的梯度，
+    proxy_g.backward()  
     
     # accumulate discounted iterative gradient
     for i, param in enumerate(meta_net.parameters()):
         if param.grad is not None:
-            param.grad.add_(gamma * args.dw_prev[i])  # 累计求论文公式(6)的‘-’号前面的项，
+            param.grad.add_(gamma * args.dw_prev[i])  # 梯度加上求论文公式(6)的‘-’号前面的项，最终完整构成了论文公式(6)
             args.dw_prev[i] = param.grad.clone()
 
     if (args.steps+1) % (args.gradient_steps)==0: # T steps proceeded by main_net
